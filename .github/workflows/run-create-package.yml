@@ -1,0 +1,51 @@
+name: Create Release
+
+on:
+  release:
+    types:
+      - created
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOTNET_ROOT: "/home/runner/.dotnet/app"
+  ORG_NAME: jacksonveroneze
+  IMAGE_NAME: grpc-server-service
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x'
+      
+      #      - name: Restore dependencies
+      #        run: |
+      #          cd src
+      #          dotnet restore
+      #
+      #      - name: Test
+      #        run: |
+      #          cd src
+      #          dotnet test -c Release --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+      - name: Login
+        run: |
+          echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Build
+        run: |
+          cd src
+          docker build . -t ${{ env.IMAGE_NAME }}:latest
+
+      - name: Create TAG
+        run: |
+          docker tag ${{ env.IMAGE_NAME }}:latest ${{ env.ORG_NAME }}/${{ env.IMAGE_NAME }}:$(echo ${GITHUB_REF:10})
+
+      - name: Push
+        run: |
+          docker push ${{ env.ORG_NAME }}/${{ env.IMAGE_NAME }}:$(echo ${GITHUB_REF:10})

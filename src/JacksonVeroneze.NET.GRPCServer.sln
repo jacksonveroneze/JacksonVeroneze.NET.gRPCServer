@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JacksonVeroneze.NET.GRPCServer.Api", "main\JacksonVeroneze.NET.GRPCServer.Api\JacksonVeroneze.NET.GRPCServer.Api.csproj", "{6AC4493C-3625-42CC-8674-4565936F824F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{2FB36637-D019-47A7-8E00-B11FB572D0D8}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
+		Dockerfile = Dockerfile
+		global.json = global.json
+		..\.gitignore = ..\.gitignore
+		Directory.Build.props = Directory.Build.props
+		BannedSymbols.txt = BannedSymbols.txt
+		nuget.config = nuget.config
+		AssemblyInfo.cs = AssemblyInfo.cs
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{22503280-B856-43B3-8174-60F081C35E9A}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\run-commit-linter.yml = ..\.github\workflows\run-commit-linter.yml
+		..\.github\workflows\run-create-package.yml = ..\.github\workflows\run-create-package.yml
+		..\.github\workflows\run-pr-assign.yml = ..\.github\workflows\run-pr-assign.yml
+		..\.github\workflows\run-unit-tests.yaml = ..\.github\workflows\run-unit-tests.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{D169AF26-FB04-418D-A804-6BFBF6B99227}"
+	ProjectSection(SolutionItems) = preProject
+		..\infra\docker\docker-compose.yml = ..\infra\docker\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E22E63C9-5B06-46D6-BC65-BAE2B80B008E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AC4493C-3625-42CC-8674-4565936F824F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AC4493C-3625-42CC-8674-4565936F824F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AC4493C-3625-42CC-8674-4565936F824F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AC4493C-3625-42CC-8674-4565936F824F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D169AF26-FB04-418D-A804-6BFBF6B99227} = {2FB36637-D019-47A7-8E00-B11FB572D0D8}
+		{22503280-B856-43B3-8174-60F081C35E9A} = {2FB36637-D019-47A7-8E00-B11FB572D0D8}
+		{6AC4493C-3625-42CC-8674-4565936F824F} = {E22E63C9-5B06-46D6-BC65-BAE2B80B008E}
+	EndGlobalSection
+EndGlobal

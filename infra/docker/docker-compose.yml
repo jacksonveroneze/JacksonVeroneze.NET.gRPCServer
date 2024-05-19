@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  api:
+    image: jacksonveroneze/grpc-server-service:latest
+    restart: always
+    tty: true
+    build:
+      context: ../../src
+      dockerfile: ./Dockerfile
+    environment:
+      - APP_CONFIG_Cache__Type=Memory
+      - APP_CONFIG_DistributedTracing__IsEnabled=true
+      - APP_CONFIG_DistributedTracing__Jaeger__Host=10.0.0.199
+      - APP_CONFIG_DistributedTracing__Jaeger__Port=6831
+      - Serilog__WriteTo__0__Args__configure__1__Name=Seq
+      - Serilog__WriteTo__0__Args__configure__1__Args__serverUrl=http://10.0.0.199:5341
+    healthcheck:
+      test: curl --silent --fail http://localhost:8080/health?source=docker || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 3s
+    ports:
+      - "8085:8080"
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 2
+        max-size: 1m
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: '256M'
+        reservations:
+          cpus: '0.50'
+          memory: '256M'

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "JacksonVeroneze.NET.GRPCServer.Api";
+
+package mytodostore_product_grpc;
+
+service ProductGRPCService {
+    rpc ImportProductsStream(stream ImportProductRequest) returns (ImportProductResponse);
+}
+
+message ImportProductRequest {
+    int32 supplier_id = 1;
+    string sku = 2;
+    string name = 3;
+    string description = 4;
+    string brand = 5;
+}
+
+message ImportProductResponse {
+    int32 count = 1;
+}
