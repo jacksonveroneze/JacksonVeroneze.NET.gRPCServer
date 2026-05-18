@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JacksonVeroneze.NET.GRPCServer.Api", "main\JacksonVeroneze.NET.GRPCServer.Api\JacksonVeroneze.NET.GRPCServer.Api.csproj", "{6AC4493C-3625-42CC-8674-4565936F824F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "main\Api\Api.csproj", "{6AC4493C-3625-42CC-8674-4565936F824F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{2FB36637-D019-47A7-8E00-B11FB572D0D8}"
 	ProjectSection(SolutionItems) = preProject
-		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
-		Dockerfile = Dockerfile
 		global.json = global.json
 		..\.gitignore = ..\.gitignore
 		Directory.Build.props = Directory.Build.props
@@ -17,22 +15,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		nuget.config = nuget.config
 		AssemblyInfo.cs = AssemblyInfo.cs
 		Directory.Packages.props = Directory.Packages.props
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{22503280-B856-43B3-8174-60F081C35E9A}"
-	ProjectSection(SolutionItems) = preProject
-		..\.github\workflows\run-commit-linter.yml = ..\.github\workflows\run-commit-linter.yml
-		..\.github\workflows\run-create-package.yml = ..\.github\workflows\run-create-package.yml
-		..\.github\workflows\run-pr-assign.yml = ..\.github\workflows\run-pr-assign.yml
-		..\.github\workflows\run-unit-tests.yaml = ..\.github\workflows\run-unit-tests.yaml
+		..\LICENSE = ..\LICENSE
+		..\.gitattributes = ..\.gitattributes
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{D169AF26-FB04-418D-A804-6BFBF6B99227}"
 	ProjectSection(SolutionItems) = preProject
 		..\infra\docker\docker-compose.yml = ..\infra\docker\docker-compose.yml
+		Dockerfile = Dockerfile
+		.dockerignore = .dockerignore
+		..\infra\docker\.env = ..\infra\docker\.env
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E22E63C9-5B06-46D6-BC65-BAE2B80B008E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infra", "infra", "{8D982DCA-57A5-480D-975F-58B5CE27D2D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "traefik", "traefik", "{EC1B3703-06ED-43F4-8446-7A5A7CCCC1D7}"
+	ProjectSection(SolutionItems) = preProject
+		..\infra\docker\traefik\conf.yml = ..\infra\docker\traefik\conf.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,8 +51,9 @@ Global
 		{6AC4493C-3625-42CC-8674-4565936F824F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D169AF26-FB04-418D-A804-6BFBF6B99227} = {2FB36637-D019-47A7-8E00-B11FB572D0D8}
-		{22503280-B856-43B3-8174-60F081C35E9A} = {2FB36637-D019-47A7-8E00-B11FB572D0D8}
 		{6AC4493C-3625-42CC-8674-4565936F824F} = {E22E63C9-5B06-46D6-BC65-BAE2B80B008E}
+		{8D982DCA-57A5-480D-975F-58B5CE27D2D1} = {2FB36637-D019-47A7-8E00-B11FB572D0D8}
+		{D169AF26-FB04-418D-A804-6BFBF6B99227} = {8D982DCA-57A5-480D-975F-58B5CE27D2D1}
+		{EC1B3703-06ED-43F4-8446-7A5A7CCCC1D7} = {D169AF26-FB04-418D-A804-6BFBF6B99227}
 	EndGlobalSection
 EndGlobal

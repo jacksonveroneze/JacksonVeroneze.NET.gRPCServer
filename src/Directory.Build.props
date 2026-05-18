@@ -1,48 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <Project>
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <LangVersion>12</LangVersion>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <PublishAot>false</PublishAot>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>14</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PublishAot>false</PublishAot>
+        <SatelliteResourceLanguages>pt-BR</SatelliteResourceLanguages>
+    </PropertyGroup>
 
-    <AnalysisLevel>latest</AnalysisLevel>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <ReportAnalyzer>true</ReportAnalyzer>
-    <AnalysisMode>All</AnalysisMode>
-    <Features>strict</Features>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <ExcludeFromSourceBuild>true</ExcludeFromSourceBuild>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PropertyGroup>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <AnalysisMode>All</AnalysisMode>
+        <AnalysisModeGlobalization>All</AnalysisModeGlobalization>
+        <AnalysisModeSecurity>All</AnalysisModeSecurity>
 
-    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
-    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+        <ExcludeFromSourceBuild>false</ExcludeFromSourceBuild>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <AccelerateBuildsInVisualStudio>false</AccelerateBuildsInVisualStudio>
 
-    <AccelerateBuildsInVisualStudio>false</AccelerateBuildsInVisualStudio>
+        <Features>strict</Features>
 
-    <NoWarn>
-      $(NoWarn);
-    </NoWarn>
-    <NoError>
-      $(NoError);
-    </NoError>
+        <ReportAnalyzer>true</ReportAnalyzer>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+        <NoWarn>
+            $(NoWarn);NU1904
+        </NoWarn>
+        <NoError>
+            $(NoError);
+        </NoError>
+    </PropertyGroup>
 
-  </PropertyGroup>
+    <ItemGroup Condition="'$(MSBuildProjectExtension)' != '.dcproj'">
+        <PackageReference Include="SonarAnalyzer.CSharp">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-  <!--  <ItemGroup>-->
-  <!--    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers">-->
-  <!--      <PrivateAssets>all</PrivateAssets>-->
-  <!--      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
-  <!--    </PackageReference>-->
-  <!--  </ItemGroup>-->
+        <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-  <ItemGroup>
-    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" Link="Properties/BannedSymbols.txt"/>
-    <Compile Include="$(MSBuildThisFileDirectory)/AssemblyInfo.cs" Link="Properties/AssemblyInfo.common.cs"/>
-  </ItemGroup>
+        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
+        <PackageReference Include="Meziantou.Analyzer">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" Link="Properties/BannedSymbols.txt" />
+        <Compile Include="$(MSBuildThisFileDirectory)/AssemblyInfo.cs" Link="Properties/AssemblyInfo.common.cs" />
+    </ItemGroup>
 </Project>

@@ -1,29 +1,40 @@
-# Build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+# =====================================================
+# Build + Publish
+# =====================================================
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS publish
 
-ADD . /build
+WORKDIR /src
 
-RUN dotnet restore /build/main/JacksonVeroneze.NET.GRPCServer.Api/JacksonVeroneze.NET.GRPCServer.Api.csproj
+COPY ./main/Api/Api.csproj ./main/Api/
+COPY *.sln ./
+COPY nuget.config ./
+COPY Directory.Build.props ./
+COPY Directory.Packages.props ./
 
-RUN dotnet publish /build/main/JacksonVeroneze.NET.GRPCServer.Api/JacksonVeroneze.NET.GRPCServer.Api.csproj \
-    --configuration Release \
-    --output /build/out \
-    --no-restore
+RUN dotnet restore ./main/Api/Api.csproj \
+    -r linux-x64 \
+    -p:PublishReadyToRun=true
 
-#RUN dotnet restore /build/main/JacksonVeroneze.NET.GRPCServer.Api/JacksonVeroneze.NET.GRPCServer.Api.csproj \
-#    --runtime linux-x64 \
-#    /p:PublishReadyToRun=true
+COPY . .
 
-#RUN dotnet publish /build/main/JacksonVeroneze.NET.GRPCServer.Api/JacksonVeroneze.NET.GRPCServer.Api.csproj \
-#    --configuration Release \
-#    --output /build/out \
-#    --no-restore \
-#    --runtime linux-x64 \
-#    --self-contained \
-#    #/p:PublishTrimmed=true \ skipped - prometheus metrics
-#    /p:PublishReadyToRun=true \
-#    /p:PublishSingleFile=false
+RUN dotnet publish ./main/Api/Api.csproj \
+    -c Release \
+    -r linux-x64 \
+    --self-contained false \
+    --no-restore \
+    -p:PublishReadyToRun=true \
+    -p:PublishTrimmed=false \
+    -p:DebugType=None \
+    -p:DebugSymbols=false \
+    --output /publish
 
-FROM jacksonveroneze/aspnet:8.0-debian-1.1.0
+# =====================================================
+# Etapa Final: Imagem de Runtime
+# =====================================================
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
-COPY --from=build-env /build/out /home/app
+COPY --from=publish /publish /home/app
+
+WORKDIR /home/app
+
+ENTRYPOINT ["dotnet", "/home/app/Api.dll"]

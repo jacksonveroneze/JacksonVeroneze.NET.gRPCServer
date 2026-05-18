@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>JacksonVeroneze.NET.GRPCServer.Api</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore"/>
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="protos\orders\v1\common_types.proto" GrpcServices="None" ProtoRoot="protos"/>
+    <Protobuf Include="protos\orders\v1\order_types.proto" GrpcServices="None" ProtoRoot="protos"/>
+
+    <Protobuf Include="protos\orders\v1\order_command_service.proto" GrpcServices="Server" ProtoRoot="protos"/>
+    <Protobuf Include="protos\orders\v1\order_query_service.proto" GrpcServices="Server" ProtoRoot="protos"/>
+  </ItemGroup>
+
+</Project>

@@ -1,8 +1,23 @@
 <Project>
-  <ItemGroup>
-    <!--    <GlobalPackageReference Include="IDisposableAnalyzers" Version="4.0.7" PrivateAssets="All" IncludeAssets="Runtime;Build;Native;contentFiles;Analyzers" />-->
-    <!--    <GlobalPackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4" PrivateAssets="All" IncludeAssets="Runtime;Build;Native;contentFiles;Analyzers" />-->
-    <!--    <PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.4"/>-->
-  </ItemGroup>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+        <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
+    </PropertyGroup>
+    
+    <ItemGroup Label="Analyzer">
+        <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.10.0.116381"/>
+        <PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="4.14.0"/>
+        <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15"/>
+        <PackageVersion Include="Meziantou.Analyzer" Version="2.0.201"/>
+    </ItemGroup>
+    
+    <ItemGroup Label="All">
+    </ItemGroup>
+    
+    <ItemGroup Label="Api">
+        <PackageVersion Include="Grpc.AspNetCore" Version="2.80.0" />
+        <PackageVersion Include="Grpc.AspNetCore.Server.Reflection" Version="2.80.0" />
+    </ItemGroup>
 
 </Project>
