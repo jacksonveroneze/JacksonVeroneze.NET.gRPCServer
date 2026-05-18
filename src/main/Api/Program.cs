@@ -1,8 +1,8 @@
-using JacksonVeroneze.NET.GRPCServer.Api.Application.Orders;
-using JacksonVeroneze.NET.GRPCServer.Api.Application.Orders.CreateOrder;
-using JacksonVeroneze.NET.GRPCServer.Api.Application.Orders.ListOrders;
-using JacksonVeroneze.NET.GRPCServer.Api.GrpcServices;
-using JacksonVeroneze.NET.GRPCServer.Api.Infrastructure;
+using JacksonVeroneze.NET.GRPCServer.Api.Services.Orders.v1;
+using JacksonVeroneze.NET.GRPCServer.Application.Orders;
+using JacksonVeroneze.NET.GRPCServer.Application.Orders.CreateOrder;
+using JacksonVeroneze.NET.GRPCServer.Application.Orders.ListOrders;
+using JacksonVeroneze.NET.GRPCServer.Infrastructure;
 
 WebApplicationBuilder builder =
     WebApplication.CreateBuilder(args);
@@ -28,4 +28,4 @@ app.MapGrpcService<OrderCommandGrpcService>();
 app.UseHealthChecks("/health");
 app.MapGet("/", () => "OK");
 
-app.Run();
+await app.RunAsync();

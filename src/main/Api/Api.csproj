@@ -10,11 +10,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="protos\orders\v1\common_types.proto" GrpcServices="None" ProtoRoot="protos"/>
-    <Protobuf Include="protos\orders\v1\order_types.proto" GrpcServices="None" ProtoRoot="protos"/>
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
 
-    <Protobuf Include="protos\orders\v1\order_command_service.proto" GrpcServices="Server" ProtoRoot="protos"/>
-    <Protobuf Include="protos\orders\v1\order_query_service.proto" GrpcServices="Server" ProtoRoot="protos"/>
+  <ItemGroup>
+    <Folder Include="Services\Orders\" />
   </ItemGroup>
 
 </Project>
