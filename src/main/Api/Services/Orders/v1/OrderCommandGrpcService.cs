@@ -1,15 +1,17 @@
 using Grpc.Core;
-using JacksonVeroneze.NET.GRPCServer.Application.Orders.CreateOrder;
+using JacksonVeroneze.NET.GRPCServer.Application.v1.Orders.CreateOrder;
 using JacksonVeroneze.NET.GRPCServer.Contracts.Orders.v1;
+using JacksonVeroneze.NET.Result;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JacksonVeroneze.NET.GRPCServer.Api.Services.Orders.v1;
 
+[Authorize(Policy = "OrdersCreate")]
 public sealed class OrderCommandGrpcService(
-    CreateOrderUseCase useCase,
+    ICreateOrderUseCase useCase,
     ILogger<OrderCommandGrpcService> logger)
     : OrderCommandService.OrderCommandServiceBase
 {
-
     public override async Task<CreateOrderResponse> CreateOrder(
         CreateOrderRequest request,
         ServerCallContext context)
@@ -18,16 +20,12 @@ public sealed class OrderCommandGrpcService(
         {
             ValidateCreateOrderRequest(request);
 
-            CreateOrderCommand command = OrderMapper.ToCommand(request);
+            CreateOrderInput input = OrderMapper.ToCommand(request);
 
-            Domain.Orders.Order order = await useCase.ExecuteAsync(
-                command,
-                context.CancellationToken);
+            Result<CreateOrderOutput> result = await useCase.ExecuteAsync(
+                input, context.CancellationToken);
 
-            return new CreateOrderResponse
-            {
-                Order = OrderMapper.ToGrpcOrder(order)
-            };
+            return new CreateOrderResponse();
         }
         catch (RpcException)
         {

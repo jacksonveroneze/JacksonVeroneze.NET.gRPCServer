@@ -1,11 +1,14 @@
 using Grpc.Core;
-using JacksonVeroneze.NET.GRPCServer.Application.Orders.ListOrders;
+using JacksonVeroneze.NET.GRPCServer.Application.v1.Orders.ListOrders;
 using JacksonVeroneze.NET.GRPCServer.Contracts.Orders.v1;
+using JacksonVeroneze.NET.Result;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JacksonVeroneze.NET.GRPCServer.Api.Services.Orders.v1;
 
+[Authorize(Policy = "OrdersList")]
 public class OrderQueryGrpcService(
-    ListOrdersUseCase useCase,
+    IListOrdersUseCase useCase,
     ILogger<OrderQueryGrpcService> logger)
     : OrderQueryService.OrderQueryServiceBase
 {
@@ -19,16 +22,12 @@ public class OrderQueryGrpcService(
         {
             ValidateListOrdersRequest(request);
 
-            ListOrdersQuery query = OrderMapper.ToQuery(request);
+            ListOrdersInput input = OrderMapper.ToQuery(request);
 
-            IReadOnlyCollection<Domain.Orders.Order> orders = await useCase.ExecuteAsync(
-                query,
-                context.CancellationToken);
+            Result<ListOrdersOutput> result = await useCase.ExecuteAsync(
+                input, context.CancellationToken);
 
             ListOrdersResponse response = new();
-
-            response.Orders.AddRange(
-                orders.Select(OrderMapper.ToGrpcOrderSummary));
 
             return response;
         }

@@ -1,9 +1,7 @@
-namespace JacksonVeroneze.NET.GRPCServer.Application.Orders;
+namespace JacksonVeroneze.NET.GRPCServer.Application.Abstractions.Repositories;
 
-public interface IOrderRepository
+public interface IOrderReadRepository
 {
-    Task AddAsync(Domain.Orders.Order order, CancellationToken cancellationToken);
-
     Task<IReadOnlyCollection<Domain.Orders.Order>> ListAsync(
         string? customerId,
         Domain.Orders.OrderStatus? status,

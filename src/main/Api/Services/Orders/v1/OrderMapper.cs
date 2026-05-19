@@ -1,18 +1,18 @@
 using Google.Protobuf.WellKnownTypes;
-using JacksonVeroneze.NET.GRPCServer.Application.Orders.CreateOrder;
-using JacksonVeroneze.NET.GRPCServer.Application.Orders.ListOrders;
+using JacksonVeroneze.NET.GRPCServer.Application.v1.Orders.CreateOrder;
+using JacksonVeroneze.NET.GRPCServer.Application.v1.Orders.ListOrders;
 using JacksonVeroneze.NET.GRPCServer.Contracts.Orders.v1;
 
 namespace JacksonVeroneze.NET.GRPCServer.Api.Services.Orders.v1;
 
 public static class OrderMapper
 {
-    public static CreateOrderCommand ToCommand(CreateOrderRequest request)
+    public static CreateOrderInput ToCommand(CreateOrderRequest request)
     {
-        return new CreateOrderCommand(
+        return new CreateOrderInput(
             CustomerId: request.CustomerId,
             Items: request.Items
-                .Select(item => new CreateOrderCommandItem(
+                .Select(item => new CreateOrderItemInput(
                     ProductId: item.ProductId,
                     ProductName: item.ProductName,
                     Quantity: item.Quantity,
@@ -20,9 +20,9 @@ public static class OrderMapper
                 .ToList());
     }
 
-    public static ListOrdersQuery ToQuery(ListOrdersRequest request)
+    public static ListOrdersInput ToQuery(ListOrdersRequest request)
     {
-        return new ListOrdersQuery(
+        return new ListOrdersInput(
             CustomerId: string.IsNullOrWhiteSpace(request.CustomerId) ? null : request.CustomerId,
             Status: ToDomainStatusOrNull(request.Status),
             PageSize: request.PageSize,
