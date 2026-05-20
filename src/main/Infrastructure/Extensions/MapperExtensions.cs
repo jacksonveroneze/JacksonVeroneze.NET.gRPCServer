@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection.Metadata;
+using System.Reflection;
+using JacksonVeroneze.NET.GRPCServer.Application;
 using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,11 +11,12 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
 public static class MapperExtensions
 {
     public static IServiceCollection AddMapper(
-        this IServiceCollection services)
+        this IServiceCollection services, Assembly assembly)
     {
         TypeAdapterConfig config = TypeAdapterConfig.GlobalSettings;
 
         config.Scan(typeof(AssemblyReference).Assembly);
+        config.Scan(assembly);
 
         services.AddSingleton(config);
 

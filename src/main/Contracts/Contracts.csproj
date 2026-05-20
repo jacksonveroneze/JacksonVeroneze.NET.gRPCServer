@@ -6,15 +6,14 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
   </ItemGroup>
-  
-  <ItemGroup>
-    <Protobuf Include="protos\orders\v1\common_types.proto" GrpcServices="None" ProtoRoot="protos" />
-    <Protobuf Include="protos\orders\v1\order_types.proto" GrpcServices="None" ProtoRoot="protos" />
 
-    <Protobuf Include="protos\orders\v1\order_command_service.proto" GrpcServices="Server" ProtoRoot="protos" />
-    <Protobuf Include="protos\orders\v1\order_query_service.proto" GrpcServices="Server" ProtoRoot="protos" />
+  <ItemGroup>
+    <Protobuf Include="protos\profiles\v1\profile_types.proto" GrpcServices="None" ProtoRoot="protos"/>
+
+    <Protobuf Include="protos\profiles\v1\profile_command_service.proto" GrpcServices="Server" ProtoRoot="protos"/>
+    <Protobuf Include="protos\profiles\v1\profile_query_service.proto" GrpcServices="Server" ProtoRoot="protos"/>
   </ItemGroup>
 
 </Project>

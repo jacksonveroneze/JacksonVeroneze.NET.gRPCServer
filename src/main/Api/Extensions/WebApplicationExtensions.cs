@@ -1,4 +1,7 @@
-using JacksonVeroneze.NET.GRPCServer.Api.Services.Orders.v1;
+using JacksonVeroneze.NET.GRPCServer.Api.Services.v1.Profiles.Activate;
+using JacksonVeroneze.NET.GRPCServer.Api.Services.v1.Profiles.Create;
+using JacksonVeroneze.NET.GRPCServer.Api.Services.v1.Profiles.Inactivate;
+using JacksonVeroneze.NET.GRPCServer.Api.Services.v1.Profiles.List;
 
 namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
@@ -25,8 +28,10 @@ internal static class WebApplicationExtensions
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapGrpcService<OrderQueryGrpcService>();
-        app.MapGrpcService<OrderCommandGrpcService>();
+        app.MapGrpcService<ListRequestGrpcService>();
+        app.MapGrpcService<CreateProfileCommandGrpcService>();
+        app.MapGrpcService<ActivateProfileCommandGrpcService>();
+        app.MapGrpcService<InactivateProfileCommandGrpcService>();
         
         app.MapGet("/", () => "OK");
 

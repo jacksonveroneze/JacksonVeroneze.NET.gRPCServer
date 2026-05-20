@@ -8,15 +8,12 @@
     <PackageReference Include="Grpc.AspNetCore"/>
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection"/>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\Orders\" />
   </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using JacksonVeroneze.NET.GRPCServer.Api.Interceptors;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
 
@@ -30,7 +31,11 @@ internal static class WebApplicationBuilderExtensions
         private WebApplicationBuilder ConfigureDefaultServices(
             AppConfiguration appConfiguration)
         {
-            builder.Services.AddGrpc();
+            builder.Services.AddGrpc(options =>
+            {
+                options.EnableDetailedErrors = true;
+                options.Interceptors.Add<GrpcExceptionInterceptor>();
+            });
             
             builder.Services
                 .AddAuthentication(appConfiguration)
@@ -39,7 +44,8 @@ internal static class WebApplicationBuilderExtensions
                 .AddCultureConfiguration()
                 .AddRouting()
                 .AddApplicationServices()
-                .AddMapper()
+                .AddFluentValidation(AssemblyReference.Assembly)
+                .AddMapper(AssemblyReference.Assembly)
                 .AddOpenTelemetry(appConfiguration)
                 .AddDatabase(appConfiguration)
                 .AddHealthChecks();

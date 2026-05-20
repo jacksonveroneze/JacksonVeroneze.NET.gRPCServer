@@ -20,11 +20,8 @@ public static class DatabaseExtensions
             ArgumentNullException.ThrowIfNull(appConfiguration);
 
             services.AddRepository()
-                .InternalAddDatabase<DefaultWriteDbContext>(
-                    appConfiguration.Database!.WriteConnectionString!)
-                .InternalAddDatabase<DefaultReadDbContext>(
-                    appConfiguration.Database.ReadConnectionString!,
-                    QueryTrackingBehavior.NoTracking);
+                .InternalAddDatabase<DefaultDbContext>(
+                    appConfiguration.Database!.ConnectionString!);
 
             return services;
         }

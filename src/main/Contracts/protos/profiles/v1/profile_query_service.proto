@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "profiles/v1/profile_types.proto";
+
+option csharp_namespace = "JacksonVeroneze.NET.GRPCServer.Contracts.Profiles.v1";
+
+package profiles.v1;
+
+message ListProfilesRequest {
+    string page_direction = 1;
+    string cursor = 2;
+}
+
+message ListProfilesResponse {
+    repeated Profile profiles = 1;
+    string next_page_token = 2;
+}
+
+service ProfileQueryService {
+    rpc ListProfiles(ListProfilesRequest) returns (ListProfilesResponse);
+}

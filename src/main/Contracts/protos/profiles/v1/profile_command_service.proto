@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+import "profiles/v1/profile_types.proto";
+
+option csharp_namespace = "JacksonVeroneze.NET.GRPCServer.Contracts.Profiles.v1";
+
+package profiles.v1;
+
+message CreateProfileRequest {
+    string name = 1;
+    string birthday = 2;
+    string gender = 3;
+    string cpf = 4;
+}
+
+message CreateProfileResponse {
+    Profile profile = 1;
+}
+
+
+message ActivateProfileRequest {
+    string id = 1;
+}
+
+message ActivateProfileResponse {
+    string id = 1;
+}
+
+message InactivateProfileRequest {
+    string id = 1;
+}
+
+message InactivateProfileResponse {
+    string id = 1;
+}
+
+service ProfileCommandService {
+    rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse);
+}
+
+service ActivateProfileCommandService {
+    rpc ActivateProfile(ActivateProfileRequest) returns (ActivateProfileResponse);
+}
+
+service InactivateProfileCommandService {
+    rpc InactivateProfile(InactivateProfileRequest) returns (InactivateProfileResponse);
+}

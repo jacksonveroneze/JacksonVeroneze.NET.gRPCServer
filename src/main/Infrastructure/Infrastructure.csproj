@@ -11,14 +11,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 
-    <PackageReference Include="CorrelationId"/>
     <PackageReference Include="Mapster.DependencyInjection"/>
+
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     
     <PackageReference Include="JacksonVeroneze.NET.EntityFramework"/>
     <PackageReference Include="JacksonVeroneze.NET.Logging"/>
     
     <PackageReference Include="EFCore.NamingConventions"/>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
     
     <PackageReference Include="OpenTelemetry.Extensions.Hosting"/>
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore"/>
