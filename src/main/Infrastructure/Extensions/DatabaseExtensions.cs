@@ -34,7 +34,7 @@ public static class DatabaseExtensions
         {
             ArgumentException.ThrowIfNullOrEmpty(connectionString);
 
-            if (useInMemory)
+            if (!useInMemory)
             {
                 services.AddDbContext<TContext>((_, options) =>
                     options.UseNpgsql(connectionString, conf =>
