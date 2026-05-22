@@ -15,19 +15,26 @@ public static class AuthenticationExtensions
     {
         ArgumentNullException.ThrowIfNull(appConfiguration);
 
-        services.AddAuthentication(
-                JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+        services.AddAuthentication(options =>
             {
-                options.Authority = appConfiguration.Auth!.Authority;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.Authority = appConfiguration.Auth!.Issuer;
                 options.Audience = appConfiguration.Auth.Audience;
-                options.RequireHttpsMetadata = true;
+                
                 options.TokenValidationParameters =
                     new TokenValidationParameters
                     {
+                        ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
+                        ValidIssuer = appConfiguration!.Auth!.Issuer,
+                        ValidAudience = appConfiguration.Auth.Audience,
                         ClockSkew = TimeSpan.Zero,
                     };
             });

@@ -10,6 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="protos\profiles\v1\pagination_types.proto" GrpcServices="None" ProtoRoot="protos"/>
+    
     <Protobuf Include="protos\profiles\v1\profile_types.proto" GrpcServices="None" ProtoRoot="protos"/>
 
     <Protobuf Include="protos\profiles\v1\profile_command_service.proto" GrpcServices="Server" ProtoRoot="protos"/>

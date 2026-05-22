@@ -8,7 +8,11 @@ public class CreateProfileMapper : IRegister
     {
         ArgumentNullException.ThrowIfNull(config);
 
-        config.NewConfig<Domain.Entities.Profile, CreateProfileResult>()
+        config.NewConfig<Domain.Entities.Profile, CreateProfileResponse>()
             .Map(dest => dest.Data, src => src);
+
+        config.NewConfig<CreateProfileRequest, Domain.Entities.Profile>()
+            .ConstructUsing(dest => new Domain.Entities.Profile(
+                dest.FullName, dest.BirthDate, dest.Gender, dest.Cpf));
     }
 }

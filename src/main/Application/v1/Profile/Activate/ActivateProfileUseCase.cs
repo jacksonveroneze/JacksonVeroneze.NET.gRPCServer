@@ -9,12 +9,12 @@ public class ActivateProfileUseCase(
     IDateTimeProvider dateTime) : IActivateProfileUseCase
 {
     public async Task<Result.Result> ExecuteAsync(
-        ActivateProfileCommand request, 
+        ActivateProfileRequest request, 
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
         
-        Domain.Entities.Profile? entity = await repository
+        var entity = await repository
             .GetByIdAsync(request.Id, cancellationToken);
         
         if (entity is null)
@@ -23,7 +23,7 @@ public class ActivateProfileUseCase(
                 DomainErrors.ProfileError.NotFound);
         }
         
-        Result.Result result = entity.Activate(dateTime.UtcNow);
+        var result = entity.Activate(dateTime.UtcNow);
         
         if (result.IsFailure)
         {

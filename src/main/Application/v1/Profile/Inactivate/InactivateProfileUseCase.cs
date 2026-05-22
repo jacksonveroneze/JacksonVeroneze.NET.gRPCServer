@@ -9,12 +9,12 @@ public class InactivateProfileUseCase(
     IDateTimeProvider dateTime) : IInactivateProfileUseCase
 {
     public async Task<Result.Result> ExecuteAsync(
-        InactivateProfileCommand request, 
+        InactivateProfileRequest request, 
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
         
-        Domain.Entities.Profile? entity = await repository
+        var entity = await repository
             .GetByIdAsync(request.Id, cancellationToken);
         
         if (entity is null)
@@ -23,7 +23,8 @@ public class InactivateProfileUseCase(
                 DomainErrors.ProfileError.NotFound);
         }
         
-        Result.Result result = entity.Inactivate(dateTime.UtcNow);
+        var result = entity
+            .Inactivate(dateTime.UtcNow);
         
         if (result.IsFailure)
         {

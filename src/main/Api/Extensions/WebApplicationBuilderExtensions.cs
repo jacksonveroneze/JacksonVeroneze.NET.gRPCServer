@@ -10,15 +10,12 @@ internal static class WebApplicationBuilderExtensions
     {
         public WebApplicationBuilder Configure()
         {
-            builder.Host.ConfigureHostOptions(options =>
-                options.ShutdownTimeout = TimeSpan.FromSeconds(10));
-
             builder.Services.AddAppConfigs(builder.Configuration);
 
-            ServiceProvider serviceProvider = builder.Services
+            var serviceProvider = builder.Services
                 .BuildServiceProvider();
 
-            AppConfiguration appConfiguration = serviceProvider
+            var appConfiguration = serviceProvider
                 .GetRequiredService<AppConfiguration>();
 
             builder.ConfigureDefaultServices(appConfiguration);
@@ -35,14 +32,15 @@ internal static class WebApplicationBuilderExtensions
             {
                 options.EnableDetailedErrors = true;
                 options.Interceptors.Add<GrpcExceptionInterceptor>();
+                options.Interceptors.Add<GrpcValidationInterceptor>();
             });
             
             builder.Services
                 .AddAuthentication(appConfiguration)
                 .AddAuthorization(appConfiguration)
-                .AddHttpContextAccessor()
                 .AddCultureConfiguration()
                 .AddRouting()
+                .AddCorrelation()
                 .AddApplicationServices()
                 .AddFluentValidation(AssemblyReference.Assembly)
                 .AddMapper(AssemblyReference.Assembly)

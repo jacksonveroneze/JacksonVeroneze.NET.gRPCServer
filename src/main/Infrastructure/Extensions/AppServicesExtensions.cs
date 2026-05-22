@@ -3,8 +3,9 @@ using JacksonVeroneze.NET.GRPCServer.Application.Abstractions.Repositories;
 using JacksonVeroneze.NET.GRPCServer.Application.Abstractions.Services;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Activate;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Create;
+using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetById;
+using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetPaged;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Inactivate;
-using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.List;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Repositories.Profile;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,8 +22,10 @@ public static class AppServicesExtensions
 
         services.AddScoped<IProfileRepository, ProfileRepository>();
 
+        services.AddScoped<IGetPagedProfilesUseCase, GetPagedProfilesUseCase>();
+        services.AddScoped<IGetByIdProfileUseCase, GetByIdProfileUseCase>();
+        
         services.AddScoped<ICreateProfileUseCase, CreateProfileUseCase>();
-        services.AddScoped<IListProfilesUseCase, ListProfilesUseCase>();
         services.AddScoped<IActivateProfileUseCase, ActivateProfileUseCase>();
         services.AddScoped<IInactivateProfileUseCase, InactivateProfileUseCase>();
 

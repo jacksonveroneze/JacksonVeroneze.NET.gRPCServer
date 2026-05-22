@@ -12,6 +12,9 @@ public sealed class GrpcExceptionInterceptor(
         ServerCallContext context,
         UnaryServerMethod<TRequest, TResponse> continuation)
     {
+        ArgumentNullException.ThrowIfNull(continuation);
+        ArgumentNullException.ThrowIfNull(context);
+        
         try
         {
             return await continuation(request, context);
@@ -22,16 +25,15 @@ public sealed class GrpcExceptionInterceptor(
         }
         catch (ValidationException exception)
         {
-            string message = string.Join(
-                "; ",
-                exception.Errors.Select(error =>
+            var message = string.Join(
+                ';', exception.Errors.Select(error =>
                     $"{error.PropertyName}: {error.ErrorMessage}"));
 
             throw new RpcException(new Status(
                 StatusCode.InvalidArgument,
                 message));
         }
-        catch (OperationCanceledException) when 
+        catch (OperationCanceledException) when
             (context.CancellationToken.IsCancellationRequested)
         {
             throw new RpcException(new Status(

@@ -21,31 +21,41 @@ public static class DatabaseExtensions
 
             services.AddRepository()
                 .InternalAddDatabase<DefaultDbContext>(
-                    appConfiguration.Database!.ConnectionString!);
+                    appConfiguration.Database!.ConnectionString!, useInMemory: false);
 
             return services;
         }
 
         private IServiceCollection InternalAddDatabase<TContext>(
             string connectionString,
-            QueryTrackingBehavior behavior = QueryTrackingBehavior.TrackAll)
+            QueryTrackingBehavior behavior = QueryTrackingBehavior.TrackAll,
+            bool useInMemory = false)
             where TContext : DbContext
         {
             ArgumentException.ThrowIfNullOrEmpty(connectionString);
 
-            services.AddDbContext<TContext>((_, options) =>
-                options.UseNpgsql(connectionString, conf =>
-                    {
-                        conf.EnableRetryOnFailure()
-                            .CommandTimeout(DefaultCommandTimeout);
-                    })
-                    .UseQueryTrackingBehavior(behavior)
-                    .ConfigureOptionsDatabase());
+            if (useInMemory)
+            {
+                services.AddDbContext<TContext>((_, options) =>
+                    options.UseNpgsql(connectionString, conf =>
+                        {
+                            conf.EnableRetryOnFailure()
+                                .CommandTimeout(DefaultCommandTimeout);
+                        })
+                        .UseQueryTrackingBehavior(behavior)
+                        .ConfigureOptionsDatabase());
+            }
+            else
+            {
+                services.AddDbContext<TContext>((_, options) =>
+                    options.UseInMemoryDatabase("db_name")
+                        .UseQueryTrackingBehavior(behavior)
+                        .ConfigureOptionsDatabase());
+            }
 
             return services;
         }
     }
-
 
     private static void ConfigureOptionsDatabase(
         this DbContextOptionsBuilder optionsBuilder)

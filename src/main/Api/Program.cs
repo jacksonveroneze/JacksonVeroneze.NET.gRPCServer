@@ -5,12 +5,12 @@ try
 {
     Log.Information("Starting application");
 
-    WebApplicationBuilder builder =
+    var builder =
         WebApplication.CreateBuilder(args);
 
     builder.Configure();
 
-    WebApplication app = builder.Build();
+    var app = builder.Build();
 
     app.Configure();
 

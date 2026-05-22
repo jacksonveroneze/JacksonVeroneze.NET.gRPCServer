@@ -1,7 +1,5 @@
-using JacksonVeroneze.NET.GRPCServer.Api.Services.v1.Profiles.Activate;
-using JacksonVeroneze.NET.GRPCServer.Api.Services.v1.Profiles.Create;
-using JacksonVeroneze.NET.GRPCServer.Api.Services.v1.Profiles.Inactivate;
-using JacksonVeroneze.NET.GRPCServer.Api.Services.v1.Profiles.List;
+using CorrelationId;
+using JacksonVeroneze.NET.GRPCServer.Api.Services.Profiles.v1;
 
 namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
@@ -12,6 +10,8 @@ internal static class WebApplicationExtensions
     {
         ArgumentNullException.ThrowIfNull(app);
 
+        app.UseCorrelationId();
+        
         app.UseRequestLocalization();
 
         if (app.Environment.IsDevelopment())
@@ -22,18 +22,13 @@ internal static class WebApplicationExtensions
         app.UseRouting();
 
         app.UseHealthChecks("/health");
-
-        app.UseOpenTelemetryPrometheusScrapingEndpoint("metrics-open");
+        app.UseOpenTelemetryPrometheusScrapingEndpoint("metrics");
 
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapGrpcService<ListRequestGrpcService>();
-        app.MapGrpcService<CreateProfileCommandGrpcService>();
-        app.MapGrpcService<ActivateProfileCommandGrpcService>();
-        app.MapGrpcService<InactivateProfileCommandGrpcService>();
-        
-        app.MapGet("/", () => "OK");
+        app.MapGrpcService<ProfileCommandGrpcService>();
+        app.MapGrpcService<ProfileQueryGrpcService>();
 
         return app;
     }

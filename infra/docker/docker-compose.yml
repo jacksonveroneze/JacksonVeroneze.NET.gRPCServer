@@ -125,6 +125,7 @@ services:
       - traefik.http.routers.api_service.middlewares=strip-prefix,compress,rate-limit,circuit-breaker
     networks:
       - grpc-server-service-internal
+      - grpc-server-service-public
     logging:
       driver: "json-file"
       options:

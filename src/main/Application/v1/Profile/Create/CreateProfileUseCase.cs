@@ -9,31 +9,30 @@ public class CreateProfileUseCase(
     IMapper mapper,
     IProfileRepository repository) : ICreateProfileUseCase
 {
-    public async Task<Result<CreateProfileResult>> ExecuteAsync(
-        CreateProfileCommand request, 
+    public async Task<Result<CreateProfileResponse>> ExecuteAsync(
+        CreateProfileRequest request,
         CancellationToken cancellationToken)
     {
-        var alreadyExists = await repository.ExistsByCpfAsync(
-            request.Cpf!, cancellationToken);
-        
+        ArgumentNullException.ThrowIfNull(request);
+
+        var alreadyExists = await repository
+            .ExistsByCpfAsync(request.Cpf, cancellationToken);
+
         if (alreadyExists)
         {
-            Error error = DomainErrors.ProfileError.Duplicated;
+            var error = DomainErrors.ProfileError.Duplicated;
 
-            return Result<CreateProfileResult>.FromConflict(error);
+            return Result<CreateProfileResponse>.FromConflict(error);
         }
-        
-        var profile = new Domain.Entities.Profile(
-            name: request.Name,
-            birthday: request.Birthday,
-            gender: request.Gender,
-            cpf: request.Cpf);
 
-        await repository.CreateAsync(profile, cancellationToken);
+        var entity = mapper.Map<CreateProfileRequest,
+            Domain.Entities.Profile>(request);
 
-        var result = mapper.Map<Domain.Entities.Profile, 
-            CreateProfileResult>(profile);
-        
-        return Result<CreateProfileResult>.WithSuccess(result);
+        await repository.CreateAsync(entity, cancellationToken);
+
+        var result = mapper.Map<Domain.Entities.Profile,
+            CreateProfileResponse>(entity);
+
+        return Result<CreateProfileResponse>.WithSuccess(result);
     }
 }

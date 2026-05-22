@@ -13,7 +13,7 @@ public static class MapperExtensions
     public static IServiceCollection AddMapper(
         this IServiceCollection services, Assembly assembly)
     {
-        TypeAdapterConfig config = TypeAdapterConfig.GlobalSettings;
+        var config = TypeAdapterConfig.GlobalSettings;
 
         config.Scan(typeof(AssemblyReference).Assembly);
         config.Scan(assembly);

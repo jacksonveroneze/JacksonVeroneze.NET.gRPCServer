@@ -21,7 +21,7 @@ public class ProfileRepository(
         Guid id,
         CancellationToken cancellationToken)
     {
-        Domain.Entities.Profile? result = await service.GetByIdAsync(
+        var result = await service.GetByIdAsync(
             conf => conf.Id == id,
             cancellationToken);
 
@@ -34,13 +34,13 @@ public class ProfileRepository(
     {
         ArgumentNullException.ThrowIfNull(filter);
 
-        Expression<Func<Domain.Entities.Profile, bool>> expression =
+        var expression =
             ProfilePagedFilterBuilder.Create(filter).Build();
 
-        int pageLimit = filter.Pagination!.Limit!.Value;
-        int databaselimit = pageLimit + 1;
+        var pageLimit = filter.Pagination?.Limit!.Value ?? 20;
+        var databaselimit = pageLimit + 1;
 
-        ICollection<Domain.Entities.Profile> result =
+        var result =
             await service.GetAllAsync(
                 expression,
                 order => order.Id,
@@ -58,7 +58,7 @@ public class ProfileRepository(
         Expression<Func<Domain.Entities.Profile, bool>> spec
             = entity => entity.Cpf == cpf;
 
-        bool exists = await service
+        var exists = await service
             .AnyAsync(spec, cancellationToken);
 
         return exists;

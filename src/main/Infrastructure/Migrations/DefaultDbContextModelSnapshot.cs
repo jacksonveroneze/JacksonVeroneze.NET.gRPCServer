@@ -33,13 +33,14 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("actived_on_utc");
 
-                    b.Property<DateOnly>("Birthday")
+                    b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date")
-                        .HasColumnName("birthday");
+                        .HasColumnName("birth_date");
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)")
                         .HasColumnName("cpf");
 
                     b.Property<DateTime>("CreatedAt")
@@ -52,6 +53,12 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("full_name");
+
                     b.Property<int>("Gender")
                         .HasColumnType("integer")
                         .HasColumnName("gender");
@@ -59,11 +66,6 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("InactivedOnUtc")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("inactived_on_utc");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")
@@ -83,8 +85,9 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_profile");
 
-                    b.HasIndex("Status")
-                        .HasDatabaseName("ix_profile_status");
+                    b.HasIndex("Cpf")
+                        .IsUnique()
+                        .HasDatabaseName("ix_profile_cpf");
 
                     b.ToTable("profile", "profile");
                 });

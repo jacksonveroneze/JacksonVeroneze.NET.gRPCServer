@@ -11,8 +11,8 @@ public static class DomainErrors
                 "The profile with the specified identifier was not found.");
 
         public static Error Duplicated =>
-            Error.Create("Profile.DuplicateEmail",
-                "The specified e-mail is already in use.");
+            Error.Create("Profile.DuplicateCpf",
+                "The specified cpf is already in use.");
 
         public static Error AlreadyActivated =>
             Error.Create("Profile.AlreadyActivated",

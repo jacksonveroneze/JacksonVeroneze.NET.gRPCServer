@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
+using JacksonVeroneze.NET.GRPCServer.Infrastructure.Security;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
@@ -16,20 +17,36 @@ public static class AuthorizationExtensions
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("OrdersCreate", policy =>
+            options.AddPolicy(AuthorizationPolicies.ProfilesCreate, policy =>
             {
                 policy.RequireAuthenticatedUser();
                 policy.RequireAssertion(context =>
-                    HasScope(context.User, "orders.create"));
+                    HasScope(context.User, AuthorizationScopes.ProfilesCreate));
             });
 
-            options.AddPolicy("OrdersList", policy =>
+            options.AddPolicy(AuthorizationPolicies.ProfilesActivate, policy =>
             {
                 policy.RequireAuthenticatedUser();
                 policy.RequireAssertion(context =>
-                    HasScope(context.User, "orders.list"));
+                    HasScope(context.User, AuthorizationScopes.ProfilesActivate));
+            });
+
+            options.AddPolicy(AuthorizationPolicies.ProfilesInactivate, policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.RequireAssertion(context =>
+                    HasScope(context.User, AuthorizationScopes.ProfilesInactivate));
+            });
+
+            options.AddPolicy(AuthorizationPolicies.ProfilesRead, policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.RequireAssertion(context =>
+                    HasScope(context.User, AuthorizationScopes.ProfilesRead));
             });
         });
+
+        return services;
 
         static bool HasScope(ClaimsPrincipal user, string requiredScope)
         {
@@ -39,7 +56,5 @@ public static class AuthorizationExtensions
 
             return scopeClaims.Contains(requiredScope, StringComparer.Ordinal);
         }
-
-        return services;
     }
 }

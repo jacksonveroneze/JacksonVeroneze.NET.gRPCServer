@@ -9,9 +9,9 @@ public sealed class Profile : Entity
 {
     public Guid Id { get; }
 
-    public string Name { get; private set; } = null!;
+    public string FullName { get; private set; } = null!;
 
-    public DateOnly Birthday { get; private set; }
+    public DateOnly BirthDate { get; private set; }
 
     public Gender Gender { get; private set; }
 
@@ -29,15 +29,15 @@ public sealed class Profile : Entity
     {
     }
 
-    public Profile(string name, 
-        DateOnly birthday, Gender gender, string cpf)
+    public Profile(string fullName, DateOnly birthDate,
+        Gender gender, string cpf)
     {
-        ArgumentException.ThrowIfNullOrEmpty(name);
+        ArgumentException.ThrowIfNullOrEmpty(fullName);
         ArgumentException.ThrowIfNullOrEmpty(cpf);
 
         Id = GuidGenerator.Generate();
-        Name = name;
-        Birthday = birthday;
+        FullName = fullName;
+        BirthDate = birthDate;
         Gender = gender;
         Cpf = cpf;
 

@@ -18,22 +18,25 @@ public class ProfileMapping : IEntityTypeConfiguration<Profile>
         builder.HasKey(c => c.Id);
 
         // Indexes
-        builder.HasIndex(c => c.Status);
+        builder.HasIndex(c => c.Cpf)
+            .IsUnique();
 
         // Properties
         builder.Property(c => c.Id)
             .ValueGeneratedNever();
 
-        builder.Property(c => c.Name)
+        builder.Property(c => c.FullName)
+            .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(c => c.Birthday)
+        builder.Property(c => c.BirthDate)
             .IsRequired();
 
         builder.Property(c => c.Gender)
             .IsRequired();
 
         builder.Property(c => c.Cpf)
+            .HasMaxLength(11)
             .IsRequired();
 
         builder.Property(c => c.Status)

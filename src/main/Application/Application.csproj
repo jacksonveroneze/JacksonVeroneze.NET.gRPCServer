@@ -6,17 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Mapster" />
-    <PackageReference Include="JacksonVeroneze.NET.Result"/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="JacksonVeroneze.NET.Pagination"/>
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="v1\" />
   </ItemGroup>
 
 </Project>

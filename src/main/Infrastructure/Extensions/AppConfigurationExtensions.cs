@@ -28,7 +28,7 @@ public static class AppConfigurationExtensions
         {
             ArgumentNullException.ThrowIfNull(configuration);
 
-            IConfiguration section = string.IsNullOrEmpty(sectionName)
+            var section = string.IsNullOrEmpty(sectionName)
                 ? configuration
                 : configuration.GetSection(sectionName);
 

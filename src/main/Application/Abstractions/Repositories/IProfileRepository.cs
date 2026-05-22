@@ -6,11 +6,11 @@ namespace JacksonVeroneze.NET.GRPCServer.Application.Abstractions.Repositories;
 
 public interface IProfileRepository
 {
-    public Task<Profile?> GetByIdAsync(
+    Task<Profile?> GetByIdAsync(
         Guid id,
         CancellationToken cancellationToken);
 
-    public Task<Page<Profile>> GetPagedAsync(
+    Task<Page<Profile>> GetPagedAsync(
         ProfilePagedFilter filter,
         CancellationToken cancellationToken);
 
@@ -22,11 +22,11 @@ public interface IProfileRepository
         Profile entity,
         CancellationToken cancellationToken);
 
-    public Task DeleteAsync(
+    Task DeleteAsync(
         Profile entity,
         CancellationToken cancellationToken);
 
-    public Task UpdateAsync(
+    Task UpdateAsync(
         Profile entity,
         CancellationToken cancellationToken);
 }
