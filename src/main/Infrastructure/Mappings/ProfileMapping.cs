@@ -42,9 +42,9 @@ public class ProfileMapping : IEntityTypeConfiguration<Profile>
         builder.Property(c => c.Status)
             .IsRequired();
 
-        builder.Property(c => c.ActivedOnUtc);
+        builder.Property(c => c.ActivatedOnUtc);
 
-        builder.Property(c => c.InactivedOnUtc);
+        builder.Property(c => c.InactivatedOnUtc);
         
         builder.Property(c => c.CreatedAt)
             .IsRequired()

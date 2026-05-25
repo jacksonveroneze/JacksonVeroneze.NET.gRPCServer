@@ -1,8 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using CorrelationId.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class CorrelationIdExtensions

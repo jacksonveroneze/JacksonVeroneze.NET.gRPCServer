@@ -1,12 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using JacksonVeroneze.NET.Logging.Configuration;
-using Microsoft.AspNetCore.Builder;
 using Serilog;
 using Serilog.Enrichers.Span;
 using Serilog.Exceptions;
 
-namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class LoggingExtensions

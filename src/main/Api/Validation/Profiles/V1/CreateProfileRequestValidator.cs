@@ -20,6 +20,7 @@ public sealed class CreateProfileRequestValidator
             .NotEmpty();
 
         RuleFor(x => x.Gender)
-            .IsInEnum();
+            .IsInEnum()
+            .NotEqual(ProfileGender.Unspecified);
     }
 }

@@ -1,10 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class AuthenticationExtensions
@@ -22,8 +21,8 @@ public static class AuthenticationExtensions
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                options.RequireHttpsMetadata = false;
-                options.Authority = appConfiguration.Auth!.Issuer;
+                options.RequireHttpsMetadata = true;
+                options.Authority = appConfiguration.Auth!.Authority;
                 options.Audience = appConfiguration.Auth.Audience;
                 
                 options.TokenValidationParameters =

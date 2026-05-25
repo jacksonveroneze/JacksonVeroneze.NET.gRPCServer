@@ -19,9 +19,9 @@ public sealed class Profile : Entity
 
     public ProfileStatus Status { get; private set; }
 
-    public DateTimeOffset? ActivedOnUtc { get; private set; }
+    public DateTimeOffset? ActivatedOnUtc { get; private set; }
 
-    public DateTimeOffset? InactivedOnUtc { get; private set; }
+    public DateTimeOffset? InactivatedOnUtc { get; private set; }
 
     #region ctor
 
@@ -58,7 +58,7 @@ public sealed class Profile : Entity
 
         Status = ProfileStatus.Active;
 
-        ActivedOnUtc = utcNow;
+        ActivatedOnUtc = utcNow;
 
         return Result.Result.WithSuccess();
     }
@@ -73,7 +73,7 @@ public sealed class Profile : Entity
 
         Status = ProfileStatus.Inactive;
 
-        InactivedOnUtc = utcNow;
+        InactivatedOnUtc = utcNow;
 
         return Result.Result.WithSuccess();
     }

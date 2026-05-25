@@ -50,5 +50,9 @@
         <PackageVersion Include="Serilog.Settings.Configuration" Version="9.0.0"/>
         <PackageVersion Include="Serilog.Sinks.Seq" Version="9.0.0"/>
 
+        <PackageVersion Include="Google.Protobuf" Version="3.35.0"/>
+        <PackageVersion Include="Grpc.Core.Api" Version="2.80.0"/>
+        <PackageVersion Include="Grpc.Tools" PrivateAssets="All" Version="2.80.0"/>
+
     </ItemGroup>
 </Project>

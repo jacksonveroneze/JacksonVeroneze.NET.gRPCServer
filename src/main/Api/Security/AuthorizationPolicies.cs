@@ -1,4 +1,4 @@
-namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Security;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Security;
 
 public static class AuthorizationPolicies
 {

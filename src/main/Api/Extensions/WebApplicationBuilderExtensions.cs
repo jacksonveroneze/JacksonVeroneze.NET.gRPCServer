@@ -12,11 +12,8 @@ internal static class WebApplicationBuilderExtensions
         {
             builder.Services.AddAppConfigs(builder.Configuration);
 
-            var serviceProvider = builder.Services
-                .BuildServiceProvider();
-
-            var appConfiguration = serviceProvider
-                .GetRequiredService<AppConfiguration>();
+            var appConfiguration = builder.Configuration
+                .Get<AppConfiguration>()!;
 
             builder.ConfigureDefaultServices(appConfiguration);
 
@@ -30,7 +27,7 @@ internal static class WebApplicationBuilderExtensions
         {
             builder.Services.AddGrpc(options =>
             {
-                options.EnableDetailedErrors = true;
+                options.EnableDetailedErrors = builder.Environment.IsDevelopment();
                 options.Interceptors.Add<GrpcExceptionInterceptor>();
                 options.Interceptors.Add<GrpcValidationInterceptor>();
             });

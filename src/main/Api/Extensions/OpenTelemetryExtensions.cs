@@ -1,12 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
-using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry;
 using OpenTelemetry.Instrumentation.AspNetCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 
-namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class OpenTelemetryExtensions

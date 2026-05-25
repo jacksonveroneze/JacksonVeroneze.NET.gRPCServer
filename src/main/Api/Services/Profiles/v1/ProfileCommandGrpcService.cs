@@ -1,9 +1,9 @@
 using Grpc.Core;
 using JacksonVeroneze.GrpcServer.Contracts.Profiles.V1;
+using JacksonVeroneze.NET.GRPCServer.Api.Security;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Activate;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Create;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Inactivate;
-using JacksonVeroneze.NET.GRPCServer.Infrastructure.Security;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
 using ContractsV1 = JacksonVeroneze.GrpcServer.Contracts.Profiles.V1;
@@ -32,11 +32,7 @@ public class ProfileCommandGrpcService(
         var result = await createProfileUseCase.ExecuteAsync(
             input, context.CancellationToken);
 
-        if (result.IsFailure)
-        {
-            throw new RpcException(new Status(
-                StatusCode.InvalidArgument, result.FirstError!.Message));    
-        }
+        result.ThrowRpcExceptionIfFailure();
         
         var response = mapper.Map<ContractsApp.Create.CreateProfileResponse,
             ContractsV1.CreateProfileResponse>(result.Value!);
@@ -58,11 +54,7 @@ public class ProfileCommandGrpcService(
         var result = await activateProfileUseCase.ExecuteAsync(
             input, context.CancellationToken);
 
-        if (result.IsFailure)
-        {
-            throw new RpcException(new Status(
-                StatusCode.InvalidArgument, result.FirstError!.Message));    
-        }
+        result.ThrowRpcExceptionIfFailure();
 
         var response = new ActivateProfileResponse();
 
@@ -83,11 +75,7 @@ public class ProfileCommandGrpcService(
         var result = await inactivateProfileUseCase.ExecuteAsync(
             input, context.CancellationToken);
 
-        if (result.IsFailure)
-        {
-            throw new RpcException(new Status(
-                StatusCode.InvalidArgument, result.FirstError!.Message));    
-        }
+        result.ThrowRpcExceptionIfFailure();
 
         var response = new InactivateProfileResponse();
 

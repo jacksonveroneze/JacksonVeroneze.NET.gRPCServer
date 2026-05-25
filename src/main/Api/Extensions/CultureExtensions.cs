@@ -1,10 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class CultureExtensions

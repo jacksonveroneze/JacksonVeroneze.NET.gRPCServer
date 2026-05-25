@@ -1,8 +1,8 @@
 using Grpc.Core;
 using JacksonVeroneze.GrpcServer.Contracts.Profiles.V1;
+using JacksonVeroneze.NET.GRPCServer.Api.Security;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetById;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetPaged;
-using JacksonVeroneze.NET.GRPCServer.Infrastructure.Security;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authorization;
 
@@ -47,9 +47,11 @@ public class ProfileQueryGrpcService(
 
         var result = await getByIdProfileUseCase.ExecuteAsync(
             input, context.CancellationToken);
+        
+        var output = result.ValueOrThrowRpcException();
 
         var response = mapper.Map<GetByIdProfileResponse,
-            GetProfileResponse>(result.Value!);
+            GetProfileResponse>(output);
 
         return response;
     }

@@ -1,10 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using JacksonVeroneze.NET.GRPCServer.Api.Security;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
-using JacksonVeroneze.NET.GRPCServer.Infrastructure.Security;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class AuthorizationExtensions

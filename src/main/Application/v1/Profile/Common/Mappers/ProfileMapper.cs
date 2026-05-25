@@ -17,7 +17,7 @@ public class ProfileMapper : IRegister
             .Map(dest => dest.Gender, src => src.Gender)
             .Map(dest => dest.Cpf, src => src.Cpf)
             .Map(dest => dest.Status, src => src.Status)
-            .Map(dest => dest.ActivedOnUtc, src => src.ActivedOnUtc)
-            .Map(dest => dest.InactivedOnUtc, src => src.InactivedOnUtc);
+            .Map(dest => dest.ActivedOnUtc, src => src.ActivatedOnUtc)
+            .Map(dest => dest.InactivedOnUtc, src => src.InactivatedOnUtc);
     }
 }

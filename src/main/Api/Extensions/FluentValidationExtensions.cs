@@ -1,9 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class FluentValidationExtensions
