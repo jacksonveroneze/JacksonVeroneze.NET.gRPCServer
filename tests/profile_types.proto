@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package profiles.v1;
+
+option csharp_namespace = "JacksonVeroneze.GrpcServer.Contracts.Profiles.V1";
+
+import "google/protobuf/timestamp.proto";
+
+enum ProfileStatus {
+    PROFILE_STATUS_UNSPECIFIED = 0;
+    PROFILE_STATUS_ACTIVE = 1;
+    PROFILE_STATUS_INACTIVE = 2;
+    PROFILE_STATUS_PENDING_ACTIVATION = 3;
+}
+
+enum ProfileGender {
+    PROFILE_GENDER_UNSPECIFIED = 0;
+    PROFILE_GENDER_MALE = 1;
+    PROFILE_GENDER_FEMALE = 2;
+    PROFILE_GENDER_OTHER = 3;
+}
+
+message Profile {
+    string profile_id = 1;
+    string full_name = 2;
+    string birth_date = 3;
+    ProfileGender gender = 4;
+    string cpf = 5;
+    ProfileStatus status = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
+}

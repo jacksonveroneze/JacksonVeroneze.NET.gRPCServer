@@ -44,6 +44,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "main\Domain\Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "main\Infrastructure\Infrastructure.csproj", "{0F43B571-B276-42FA-8FFF-1D17F3B322BC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F26071A0-6397-45D4-82A6-E01303AB02AC}"
+	ProjectSection(SolutionItems) = preProject
+		..\tests\k6-run.sh = ..\tests\k6-run.sh
+		..\tests\k6.env = ..\tests\k6.env
+		..\tests\data.json = ..\tests\data.json
+		..\tests\scenarios\util.js = ..\tests\scenarios\util.js
+		..\tests\test-grpc.js = ..\tests\test-grpc.js
+		..\tests\test-rest.js = ..\tests\test-rest.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,5 +93,6 @@ Global
 		{F228DDE7-05EB-46FB-8659-24C043BEA556} = {E22E63C9-5B06-46D6-BC65-BAE2B80B008E}
 		{D25C6D08-6C53-4ACB-8E55-53C1441EB3CC} = {E22E63C9-5B06-46D6-BC65-BAE2B80B008E}
 		{0F43B571-B276-42FA-8FFF-1D17F3B322BC} = {E22E63C9-5B06-46D6-BC65-BAE2B80B008E}
+		{F26071A0-6397-45D4-82A6-E01303AB02AC} = {2FB36637-D019-47A7-8E00-B11FB572D0D8}
 	EndGlobalSection
 EndGlobal

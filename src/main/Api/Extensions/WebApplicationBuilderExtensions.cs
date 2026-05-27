@@ -1,4 +1,5 @@
-using JacksonVeroneze.NET.GRPCServer.Api.Interceptors;
+using JacksonVeroneze.NET.GRPCServer.Api.Grpc.Interceptors;
+using JacksonVeroneze.NET.GRPCServer.Api.Middlewares;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
 
@@ -33,14 +34,20 @@ internal static class WebApplicationBuilderExtensions
             });
             
             builder.Services
+                .AddProblemDetails()
+                .AddExceptionHandler<CustomExceptionHandler>()
                 .AddAuthentication(appConfiguration)
                 .AddAuthorization(appConfiguration)
+                .AddJsonOptionsSerialize()
+                .AddHttpContextAccessor()
                 .AddCultureConfiguration()
+                .AddAppVersioning()
                 .AddRouting()
                 .AddCorrelation()
                 .AddApplicationServices()
                 .AddFluentValidation(AssemblyReference.Assembly)
                 .AddMapper(AssemblyReference.Assembly)
+                .AddCached(appConfiguration)
                 .AddOpenTelemetry(appConfiguration)
                 .AddDatabase(appConfiguration)
                 .AddHealthChecks();

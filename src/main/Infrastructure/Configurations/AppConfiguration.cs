@@ -8,6 +8,8 @@ public sealed record AppConfiguration
     public AppInfoConfiguration? Application { get; init; }
 
     public AuthConfiguration? Auth { get; init; }
+    
+    public CacheConfiguration? Cache { get; init; }
 
     public DatabaseConfiguration? Database { get; init; }
     
