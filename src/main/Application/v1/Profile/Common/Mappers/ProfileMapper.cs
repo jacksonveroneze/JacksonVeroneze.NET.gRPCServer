@@ -1,5 +1,4 @@
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Common.Models;
-using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetById;
 using Mapster;
 
 namespace JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Common.Mappers;

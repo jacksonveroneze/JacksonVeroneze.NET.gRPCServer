@@ -1,4 +1,3 @@
-using JacksonVeroneze.NET.GRPCServer.Api.Grpc.Interceptors;
 using JacksonVeroneze.NET.GRPCServer.Api.Middlewares;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
@@ -26,13 +25,9 @@ internal static class WebApplicationBuilderExtensions
         private WebApplicationBuilder ConfigureDefaultServices(
             AppConfiguration appConfiguration)
         {
-            builder.Services.AddGrpc(options =>
-            {
-                options.EnableDetailedErrors = builder.Environment.IsDevelopment();
-                options.Interceptors.Add<GrpcExceptionInterceptor>();
-                options.Interceptors.Add<GrpcValidationInterceptor>();
-            });
-            
+            builder.Services.AddGrpc(builder.Environment.IsDevelopment());
+            builder.Services.AddMcp(appConfiguration);
+
             builder.Services
                 .AddProblemDetails()
                 .AddExceptionHandler<CustomExceptionHandler>()

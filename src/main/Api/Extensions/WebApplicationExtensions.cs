@@ -24,6 +24,8 @@ internal static class WebApplicationExtensions
 
         app.UseHealthChecks("/health");
         app.UseOpenTelemetryPrometheusScrapingEndpoint("metrics");
+        
+        app.MapMcp("mcp");
 
         app.UseAuthentication();
         app.UseAuthorization();

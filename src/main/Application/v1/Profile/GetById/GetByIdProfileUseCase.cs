@@ -1,6 +1,4 @@
 using JacksonVeroneze.NET.GRPCServer.Application.Abstractions.Repositories;
-using JacksonVeroneze.NET.GRPCServer.Application.Abstractions.Services;
-using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetPaged;
 using JacksonVeroneze.NET.GRPCServer.Domain.Errors;
 using MapsterMapper;
 
