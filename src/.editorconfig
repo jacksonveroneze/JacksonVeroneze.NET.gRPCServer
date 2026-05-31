@@ -108,6 +108,7 @@ dotnet_diagnostic.S3887.severity = none
 dotnet_diagnostic.S2386.severity = none
 dotnet_diagnostic.S1481.severity = none
 dotnet_diagnostic.MA0025.severity = none
+dotnet_diagnostic.CA1852.severity = none
 
 ########################################
 # Meziantou.MA0051 (métodos longos)

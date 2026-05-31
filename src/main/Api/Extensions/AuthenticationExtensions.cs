@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using AspNetCore.Authentication.ApiKey;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -24,7 +25,7 @@ public static class AuthenticationExtensions
                 options.RequireHttpsMetadata = true;
                 options.Authority = appConfiguration.Auth!.Authority;
                 options.Audience = appConfiguration.Auth.Audience;
-                
+
                 options.TokenValidationParameters =
                     new TokenValidationParameters
                     {
@@ -37,6 +38,11 @@ public static class AuthenticationExtensions
                         ClockSkew = TimeSpan.Zero,
                     };
             });
+            // .AddApiKeyInHeaderOrQueryParams<IApiKeyProvider>(options =>
+            // {
+            //     options.Realm = "Sample Web API";
+            //     options.KeyName = "X-API-KEY";
+            // });
 
         return services;
     }

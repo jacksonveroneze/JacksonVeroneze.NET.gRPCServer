@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
+using ModelContextProtocol.Protocol;
 
 namespace JacksonVeroneze.NET.GRPCServer.Api.Extensions;
 
@@ -12,10 +13,12 @@ public static class McpExtensions
     {
         services.AddMcpServer(configureOption =>
             {
-                configureOption.ServerInfo!.Name = appConfiguration.AppName;
-                configureOption.ServerInfo!.Version = appConfiguration.AppVersion.ToString();
+                configureOption.ServerInfo = new Implementation
+                {
+                    Name = appConfiguration.AppName,
+                    Version = appConfiguration.AppVersion.ToString(),
+                };
             })
-            //.WithStdioServerTransport()
             .WithHttpTransport(options => { options.Stateless = true; })
             .WithToolsFromAssembly(AssemblyReference.Assembly);
 
