@@ -27,7 +27,6 @@ public static class OpenTelemetryExtensions
         services.AddOpenTelemetry()
             .ConfigureResource(ConfigureResource)
             .AddMetrics();
-            //.AddTracing(appConfiguration);
 
         return services;
 
@@ -53,29 +52,5 @@ public static class OpenTelemetryExtensions
 
             return builder;
         }
-
-        // private IOpenTelemetryBuilder AddTracing(AppConfiguration appConfiguration)
-        // {
-        //     DistributedTracingToolConfiguration configuration =
-        //         appConfiguration.DistributedTracing!.Jaeger!;
-        //
-        //     builder.WithTracing(conf =>
-        //     {
-        //         conf.AddAspNetCoreInstrumentation(options => { options.RecordException = true; })
-        //             .AddEntityFrameworkCoreInstrumentation(options =>
-        //             {
-        //                 options.SetDbStatementForText = true;
-        //                 options.SetDbStatementForStoredProcedure = true;
-        //             })
-        //             .AddHttpClientInstrumentation()
-        //             .AddRedisInstrumentation()
-        //             .AddSource("TaxiService");
-        //
-        //         conf.AddOtlpExporter(config => config.Endpoint =
-        //             new Uri($"http://{configuration.Host}:{configuration.Port}"));
-        //     });
-        //
-        //     return builder;
-        // }
     }
 }

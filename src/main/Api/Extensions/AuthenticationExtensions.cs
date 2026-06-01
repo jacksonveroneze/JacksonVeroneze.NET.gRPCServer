@@ -38,11 +38,6 @@ public static class AuthenticationExtensions
                         ClockSkew = TimeSpan.Zero,
                     };
             });
-            // .AddApiKeyInHeaderOrQueryParams<IApiKeyProvider>(options =>
-            // {
-            //     options.Realm = "Sample Web API";
-            //     options.KeyName = "X-API-KEY";
-            // });
 
         return services;
     }

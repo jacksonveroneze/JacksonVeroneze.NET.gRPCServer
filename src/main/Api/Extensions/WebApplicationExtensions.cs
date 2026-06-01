@@ -13,8 +13,6 @@ internal static class WebApplicationExtensions
 
         app.UseCorrelationId();
         
-        app.UseRequestLocalization();
-
         if (app.Environment.IsDevelopment())
         {
             app.MapGrpcReflectionService();

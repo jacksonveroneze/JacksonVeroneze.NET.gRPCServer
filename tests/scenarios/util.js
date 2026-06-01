@@ -24,8 +24,12 @@ export function getToken() {
 
     const res = http.post(url, payload, params);
 
-    let token = res.json().access_token;
+    if (res.status !== 200) {
+        throw new Error(`Failed to get token. status=${res.status} body=${res.body}`);
+    }
     
+    let token = res.json().access_token;
+
     // console.log(token)
 
     return token;

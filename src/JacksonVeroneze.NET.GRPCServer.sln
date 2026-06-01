@@ -54,6 +54,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F26071A0
 		..\tests\test-rest.js = ..\tests\test-rest.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", "{2D585A94-089C-41A3-BCFF-361E0DF43EFC}"
+	ProjectSection(SolutionItems) = preProject
+		..\infra\docker\prometheus\prometheus-config.yml = ..\infra\docker\prometheus\prometheus-config.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,5 +99,6 @@ Global
 		{D25C6D08-6C53-4ACB-8E55-53C1441EB3CC} = {E22E63C9-5B06-46D6-BC65-BAE2B80B008E}
 		{0F43B571-B276-42FA-8FFF-1D17F3B322BC} = {E22E63C9-5B06-46D6-BC65-BAE2B80B008E}
 		{F26071A0-6397-45D4-82A6-E01303AB02AC} = {2FB36637-D019-47A7-8E00-B11FB572D0D8}
+		{2D585A94-089C-41A3-BCFF-361E0DF43EFC} = {D169AF26-FB04-418D-A804-6BFBF6B99227}
 	EndGlobalSection
 EndGlobal

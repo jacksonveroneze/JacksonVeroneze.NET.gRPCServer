@@ -1,17 +1,25 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo "Start" && date
+echo "Start: $(date)"
 
-type=$1
+type="${1:-grpc}"
 
-echo $type
+set -a
+source ./k6.env
+set +a
 
-source k6.env
+case "$type" in
+  rest)
+    k6 run --summary-export results-rest.json test-rest.js
+    ;;
+  grpc)
+    k6 run --summary-export results-grpc.json test-grpc.js
+    ;;
+  *)
+    echo "Usage: ./k6-run.sh [rest|grpc]"
+    exit 1
+    ;;
+esac
 
-if [ "$1" == "rest" ]; then
-    k6 run test-rest.js
-else
-    k6 run test-grpc.js
-fi
-
-echo "end" && date
+echo "End: $(date)"

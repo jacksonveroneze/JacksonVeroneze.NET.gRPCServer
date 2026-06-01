@@ -3,7 +3,6 @@ services:
     container_name: loadbalancer
     image: traefik:v3.6
     restart: unless-stopped
-    tty: true
     command:
       # EntryPoints
       - --entrypoints.http.address=:80
@@ -59,8 +58,6 @@ services:
       start_period: 5s
     depends_on:
       - api
-    links:
-      - api
     ports:
       - "8080:80"
       - "8093:443"
@@ -83,10 +80,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 2048M
-        reservations:
-          cpus: '1'
           memory: 1024M
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
   api:
     image: grpc-server-api:latest
@@ -132,7 +129,7 @@ services:
         max-file: "2"
         max-size: "1m"
     deploy:
-      replicas: 2
+      replicas: 1
       mode: replicated
       resources:
         limits:
@@ -140,8 +137,42 @@ services:
           memory: '512M'
           pids: 100
         reservations:
-          cpus: '512'
+          cpus: '1'
           memory: '512M'
+  
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    ports:
+      - "19090:9090"
+    networks:
+      - grpc-server-service-public
+      - grpc-server-service-internal
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.enable-lifecycle'
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://127.0.0.1:9090/-/ready >/dev/null 2>&1 || exit 1" ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    volumes:
+      - ./prometheus/prometheus-config.yml:/etc/prometheus/prometheus.yml
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "1m"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.50'
+          memory: 256M
 
 networks:
   grpc-server-service-public:
