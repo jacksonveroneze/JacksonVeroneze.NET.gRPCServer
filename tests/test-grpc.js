@@ -25,24 +25,19 @@ export const options = {
             timeUnit: "1s",
 
             stages: [
+                { duration: "10s", target: 1 },
+                { duration: "30s", target: 50 },
+                { duration: "30s", target: 100 },
+                { duration: "30s", target: 250 },
                 { duration: "30s", target: 500 },
-                { duration: "30", target: 500 },
-
+                { duration: "30s", target: 750 },
                 { duration: "30s", target: 1000 },
-                { duration: "30", target: 1000 },
-
-                { duration: "30s", target: 1500 },
-                { duration: "30", target: 1500 },
-
-                { duration: "30s", target: 2000 },
-                { duration: "30", target: 2000 },
-
+                { duration: "30s", target: 1250 },
                 { duration: "30s", target: 0 },
             ],
 
             preAllocatedVUs: 200,
-            maxVUs: 1000,
-
+            maxVUs: 1250,
             gracefulStop: "30s",
         },
     },
