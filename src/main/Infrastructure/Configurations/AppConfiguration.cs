@@ -5,6 +5,8 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 [ExcludeFromCodeCoverage]
 public sealed record AppConfiguration
 {
+    public bool Type { get; set; }
+    
     public AppInfoConfiguration? Application { get; init; }
 
     public AuthConfiguration? Auth { get; init; }

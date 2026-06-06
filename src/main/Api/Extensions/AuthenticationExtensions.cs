@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using AspNetCore.Authentication.ApiKey;
+using JacksonVeroneze.NET.GRPCServer.Api.Security;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +11,7 @@ public static class AuthenticationExtensions
 {
     public static IServiceCollection AddAuthentication(
         this IServiceCollection services,
+        IConfiguration configuration,
         AppConfiguration appConfiguration)
     {
         ArgumentNullException.ThrowIfNull(appConfiguration);
@@ -37,7 +38,8 @@ public static class AuthenticationExtensions
                         ValidAudience = appConfiguration.Auth.Audience,
                         ClockSkew = TimeSpan.Zero,
                     };
-            });
+            })
+            .AddApiKeyAuthenticationScheme(configuration);
 
         return services;
     }

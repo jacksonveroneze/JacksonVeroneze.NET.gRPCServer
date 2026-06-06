@@ -1,0 +1,1 @@
+- [Project Architecture](project-architecture.md) — Result library API, MCP tool structure, CPM setup, strict analyzer rules that affect test compilation

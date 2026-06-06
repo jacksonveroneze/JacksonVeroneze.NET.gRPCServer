@@ -2,11 +2,13 @@ using System.ComponentModel;
 using FluentValidation;
 using JacksonVeroneze.NET.GRPCServer.Api.Mcp.Extensions;
 using JacksonVeroneze.NET.GRPCServer.Api.Mcp.Models;
+using JacksonVeroneze.NET.GRPCServer.Api.Security;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Activate;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Create;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetById;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Inactivate;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -14,7 +16,11 @@ using ModelContextProtocol.Server;
 namespace JacksonVeroneze.NET.GRPCServer.Api.Mcp.Tools;
 
 [McpServerToolType]
-public sealed class ProfileTools(IMapper mapper)
+[Authorize(Policy = AuthorizationPolicies.McpAccess)]
+public sealed class ProfileTools(
+    IMapper mapper,
+    [FromServices] IValidator<CreateProfileToolInput> validator
+)
 {
     #region constants
 
@@ -41,9 +47,9 @@ public sealed class ProfileTools(IMapper mapper)
         Title = CreateProfileToolTitle
     )]
     [Description(CreateProfileToolDesc)]
+    [Authorize(Policy = AuthorizationPolicies.McpProfilesCreate)]
     public async Task<CallToolResult> CreateAsync(
         [FromServices] ICreateProfileUseCase createProfileUseCase,
-        [FromServices] IValidator<CreateProfileToolInput> validator,
         CreateProfileToolInput input,
         CancellationToken cancellationToken)
     {
@@ -71,9 +77,10 @@ public sealed class ProfileTools(IMapper mapper)
 
     [McpServerTool(
         Name = ActivateProfileToolName,
-        Title = InactivateProfileToolTitle
+        Title = ActivateProfileToolTitle
     )]
     [Description(ActivateProfileToolDesc)]
+    [Authorize(Policy = AuthorizationPolicies.McpProfilesActivate)]
     public async Task<CallToolResult> ActivateAsync(
         [FromServices] IActivateProfileUseCase activateProfileUseCase,
         Guid id,
@@ -83,7 +90,7 @@ public sealed class ProfileTools(IMapper mapper)
 
         var result = await activateProfileUseCase
             .ExecuteAsync(request, cancellationToken);
-        
+
         return result.IsSuccess
             ? result.ToCallToolResultSuccess()
             : result.ToCallToolResultError();
@@ -91,16 +98,17 @@ public sealed class ProfileTools(IMapper mapper)
 
     [McpServerTool(
         Name = InactivateProfileToolName,
-        Title = ActivateProfileToolTitle
+        Title = InactivateProfileToolTitle
     )]
     [Description(InactivateProfileToolDesc)]
+    [Authorize(Policy = AuthorizationPolicies.McpProfilesInactivate)]
     public async Task<CallToolResult> InactivateAsync(
         [FromServices] IInactivateProfileUseCase inactivateProfileUseCase,
         Guid id,
         CancellationToken cancellationToken)
     {
         var request = new InactivateProfileRequest(id);
-        
+
         var result = await inactivateProfileUseCase
             .ExecuteAsync(request, cancellationToken);
 
@@ -114,13 +122,14 @@ public sealed class ProfileTools(IMapper mapper)
         Title = GetByIdProfileToolTitle
     )]
     [Description(GetByIdProfileToolDesc)]
+    [Authorize(Policy = AuthorizationPolicies.McpProfilesRead)]
     public async Task<CallToolResult> GetByIdAsync(
         [FromServices] IGetByIdProfileUseCase getByIdProfileUseCase,
         Guid id,
         CancellationToken cancellationToken)
     {
         var request = new GetByIdProfileRequest(id);
-        
+
         var result = await getByIdProfileUseCase
             .ExecuteAsync(request, cancellationToken);
 

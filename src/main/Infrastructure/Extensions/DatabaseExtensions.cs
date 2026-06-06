@@ -4,6 +4,7 @@ using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
 
@@ -15,54 +16,59 @@ public static class DatabaseExtensions
     extension(IServiceCollection services)
     {
         public IServiceCollection AddDatabase(
-            AppConfiguration appConfiguration)
+            AppConfiguration appConfiguration,
+            IHostEnvironment environment)
         {
             ArgumentNullException.ThrowIfNull(appConfiguration);
 
             services.AddRepository()
                 .InternalAddDatabase<DefaultDbContext>(
-                    appConfiguration.Database!.ConnectionString!, useInMemory: false);
+                    appConfiguration.Database!.ConnectionString!, 
+                    environment, useInMemory: false);
 
             return services;
         }
 
         private IServiceCollection InternalAddDatabase<TContext>(
             string connectionString,
-            QueryTrackingBehavior behavior = QueryTrackingBehavior.TrackAll,
+            IHostEnvironment environment,
+            QueryTrackingBehavior behavior = QueryTrackingBehavior.NoTracking,
             bool useInMemory = false)
             where TContext : DbContext
         {
             ArgumentException.ThrowIfNullOrEmpty(connectionString);
 
-            if (!useInMemory)
+            services.AddDbContext<TContext>((_, options) =>
             {
-                services.AddDbContext<TContext>((_, options) =>
+                if (!useInMemory)
+                {
                     options.UseNpgsql(connectionString, conf =>
                         {
                             conf.EnableRetryOnFailure()
                                 .CommandTimeout(DefaultCommandTimeout);
                         })
                         .UseQueryTrackingBehavior(behavior)
-                        .ConfigureOptionsDatabase());
-            }
-            else
-            {
-                services.AddDbContext<TContext>((_, options) =>
+                        .ConfigureOptionsDatabase(environment);
+                }
+                else
+                {
                     options.UseInMemoryDatabase("db_name")
                         .UseQueryTrackingBehavior(behavior)
-                        .ConfigureOptionsDatabase());
-            }
+                        .ConfigureOptionsDatabase(environment);
+                }
+            });
 
             return services;
         }
     }
 
     private static void ConfigureOptionsDatabase(
-        this DbContextOptionsBuilder optionsBuilder)
+        this DbContextOptionsBuilder optionsBuilder,
+        IHostEnvironment environment)
     {
         optionsBuilder
-            .EnableDetailedErrors()
-            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors(environment.IsDevelopment())
+            .EnableSensitiveDataLogging(environment.IsDevelopment())
             .EnableThreadSafetyChecks()
             .UseSnakeCaseNamingConvention();
     }

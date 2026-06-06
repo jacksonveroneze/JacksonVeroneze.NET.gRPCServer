@@ -1,4 +1,5 @@
 using Asp.Versioning.Builder;
+using JacksonVeroneze.NET.GRPCServer.Api.Security;
 
 namespace JacksonVeroneze.NET.GRPCServer.Api.Rest.Endpoints.Extensions;
 
@@ -7,8 +8,7 @@ internal static class RouteGroupBuilderFactory
     public static RouteGroupBuilder Factory(
         WebApplication app,
         string resource,
-        int version,
-        bool requireAuthorization = true)
+        int version)
     {
         ApiVersionSet apiVersionSet = app.AddVersion();
 
@@ -16,12 +16,8 @@ internal static class RouteGroupBuilderFactory
             app.MapGroup("/v{version:apiVersion}/" + resource)
                 .WithTags(resource)
                 .WithApiVersionSet(apiVersionSet)
-                .MapToApiVersion(version);
-
-        if (requireAuthorization)
-        {
-            builder.RequireAuthorization();
-        }
+                .MapToApiVersion(version)
+                .RequireAuthorization(AuthorizationPolicies.JwtAccess);
 
         return builder;
     }

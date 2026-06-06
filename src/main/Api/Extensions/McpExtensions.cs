@@ -19,6 +19,7 @@ public static class McpExtensions
                     Version = appConfiguration.AppVersion.ToString(),
                 };
             })
+            .AddAuthorizationFilters()
             .WithHttpTransport(options => { options.Stateless = true; })
             .WithToolsFromAssembly(AssemblyReference.Assembly);
 

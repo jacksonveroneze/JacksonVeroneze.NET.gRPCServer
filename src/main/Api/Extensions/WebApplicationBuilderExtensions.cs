@@ -31,17 +31,18 @@ internal static class WebApplicationBuilderExtensions
             builder.Services
                 .AddProblemDetails()
                 .AddExceptionHandler<CustomExceptionHandler>()
-                .AddAuthentication(appConfiguration)
+                .AddAuthentication(builder.Configuration, appConfiguration)
                 .AddAuthorization(appConfiguration)
                 .AddJsonOptionsSerialize()
                 .AddAppVersioning()
                 .AddRouting()
                 .AddCorrelation()
                 .AddApplicationServices()
+                .AddFluentValidation(AssemblyReference.Assembly)
                 .AddMapper(AssemblyReference.Assembly)
                 .AddCached(appConfiguration)
                 .AddOpenTelemetry(appConfiguration)
-                .AddDatabase(appConfiguration)
+                .AddDatabase(appConfiguration, builder.Environment)
                 .AddHealthChecks();
 
             if (!builder.Environment.IsProduction())
