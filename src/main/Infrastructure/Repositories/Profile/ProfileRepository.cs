@@ -5,14 +5,13 @@ using JacksonVeroneze.NET.GRPCServer.Application.Abstractions.Repositories;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Common.Filters;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Builders.Filters;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Contexts;
-using JacksonVeroneze.NET.Pagination.Cursor;
-using JacksonVeroneze.NET.Pagination.Cursor.Extensions;
+using JacksonVeroneze.NET.Pagination.Offset;
 
 namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Repositories.Profile;
 
 [ExcludeFromCodeCoverage]
 public class ProfileRepository(
-    IEfCoreRepository<Domain.Entities.Profile, DefaultDbContext> service)
+    IEfCoreRepository<Domain.Entities.Profile, DefaultDbContext> efRepository)
     : IProfileRepository
 {
     #region read
@@ -21,34 +20,29 @@ public class ProfileRepository(
         Guid id,
         CancellationToken cancellationToken)
     {
-        var result = await service.GetByIdAsync(
+        var result = await efRepository.GetByIdAsync(
             conf => conf.Id == id,
             cancellationToken);
 
         return result;
     }
 
-    public async Task<Page<Domain.Entities.Profile>> GetPagedAsync(
+    public Task<Page<Domain.Entities.Profile>> GetPagedAsync(
         ProfilePagedFilter filter,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(filter);
 
-        var expression =
-            ProfilePagedFilterBuilder.Create(filter).Build();
+        var expression = ProfilePagedFilterBuilder
+            .Create(filter).Build();
 
-        var pageLimit = filter.Pagination?.Limit!.Value ?? 20;
-        var databaselimit = pageLimit + 1;
+        var result = efRepository.GetPagedAsync(
+            filter.Pagination!,
+            expression,
+            order => order.Id,
+            cancellationToken: cancellationToken);
 
-        var result =
-            await service.GetAllAsync(
-                expression,
-                order => order.Id,
-                databaselimit,
-                cancellationToken: cancellationToken);
-
-        return result.ToPage(
-            filter.Pagination, d => d.Id.ToString());
+        return result;
     }
 
     public async Task<bool> ExistsByCpfAsync(
@@ -58,7 +52,7 @@ public class ProfileRepository(
         Expression<Func<Domain.Entities.Profile, bool>> spec
             = entity => entity.Cpf == cpf;
 
-        var exists = await service
+        var exists = await efRepository
             .AnyAsync(spec, cancellationToken);
 
         return exists;
@@ -72,27 +66,27 @@ public class ProfileRepository(
         Domain.Entities.Profile entity,
         CancellationToken cancellationToken)
     {
-        await service.CreateAsync(entity, cancellationToken);
-        
-        await service.DbContext.SaveChangesAsync(cancellationToken);
+        await efRepository.CreateAsync(entity, cancellationToken);
+
+        await efRepository.DbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(
         Domain.Entities.Profile entity,
         CancellationToken cancellationToken)
     {
-        service.Delete(entity);
+        efRepository.Delete(entity);
 
-        await service.DbContext.SaveChangesAsync(cancellationToken);
+        await efRepository.DbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(
         Domain.Entities.Profile entity,
         CancellationToken cancellationToken)
     {
-        service.Update(entity);
+        efRepository.Update(entity);
 
-        await service.DbContext.SaveChangesAsync(cancellationToken);
+        await efRepository.DbContext.SaveChangesAsync(cancellationToken);
     }
 
     #endregion

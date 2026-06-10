@@ -15,12 +15,15 @@ public static class MapperExtensions
     {
         var config = TypeAdapterConfig.GlobalSettings;
 
+        config.RequireExplicitMapping = true;
+        config.RequireDestinationMemberSource = true;
+
         config.Scan(typeof(AssemblyReference).Assembly);
         config.Scan(assembly);
 
         services.AddSingleton(config);
 
-        services.AddScoped<IMapper, ServiceMapper>();
+        services.AddSingleton<IMapper, ServiceMapper>();
 
         return services;
     }

@@ -4,28 +4,38 @@ namespace JacksonVeroneze.NET.GRPCServer.Application.Common.Models.Common.Reques
 
 public abstract record PagedRequest
 {
+    private const int DefaultPage = 1;
+
     private const int DefaulPageSize = 20;
 
-    protected PagedRequest(string defaultOrderBy, SortDirection defaultOrderDirection)
+    protected PagedRequest(
+        string defaultOrderBy,
+        SortDirection defaultOrder)
     {
         ArgumentException.ThrowIfNullOrEmpty(defaultOrderBy);
 
         _orderBy = defaultOrderBy;
-        _orderDirection = defaultOrderDirection;
+        _order = defaultOrder;
 
+        _page = DefaultPage;
         _pageSize = DefaulPageSize;
     }
 
-    private readonly int _pageSize;
+    private readonly int? _page;
+    private readonly int? _pageSize;
     private readonly string? _orderBy;
-    private readonly SortDirection? _orderDirection;
+    private readonly SortDirection? _order;
 
-    public string? Cursor { get; init; }
+    public int? Page
+    {
+        get => _page;
+        init => _page = value != 0 ? value : DefaultPage;
+    }
 
     public int? PageSize
     {
         get => _pageSize;
-        init => _pageSize = value ?? DefaulPageSize;
+        init => _pageSize = value != 0 ? value : DefaulPageSize;
     }
 
     public string? OrderBy
@@ -34,9 +44,9 @@ public abstract record PagedRequest
         init => _orderBy = value ?? _orderBy;
     }
 
-    public SortDirection? OrderDirection
+    public SortDirection? Order
     {
-        get => _orderDirection;
-        init => _orderDirection = value ?? _orderDirection;
+        get => _order;
+        init => _order = value ?? _order;
     }
 }

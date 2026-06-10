@@ -9,8 +9,8 @@ import "profiles/v1/profile_types.proto";
 message CreateProfileRequest {
     string full_name = 1;
     string birth_date = 2;
-    ProfileGender gender = 3;
-    string cpf = 4;
+    string cpf = 3;
+    ProfileGender gender = 4;
 }
 
 message CreateProfileResponse {

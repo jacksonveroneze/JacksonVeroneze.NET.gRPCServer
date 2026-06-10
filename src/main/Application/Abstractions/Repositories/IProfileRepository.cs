@@ -1,6 +1,6 @@
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Common.Filters;
 using JacksonVeroneze.NET.GRPCServer.Domain.Entities;
-using JacksonVeroneze.NET.Pagination.Cursor;
+using JacksonVeroneze.NET.Pagination.Offset;
 
 namespace JacksonVeroneze.NET.GRPCServer.Application.Abstractions.Repositories;
 

@@ -1,5 +1,6 @@
 using Google.Protobuf.Collections;
 using JacksonVeroneze.GrpcServer.Contracts.Profiles.V1;
+using JacksonVeroneze.NET.GRPCServer.Application.Common.Models.Common.Response;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Common.Models;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetById;
 using JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.GetPaged;
@@ -15,7 +16,7 @@ public class ProfileGrpcMapper : IRegister
         ArgumentNullException.ThrowIfNull(config);
 
         #region common
-        
+
         config.NewConfig<ProfileResponse, Profile>()
             .Map(dest => dest.ProfileId, src => src.Id)
             .Map(dest => dest.FullName, src => src.FullName)
@@ -52,18 +53,33 @@ public class ProfileGrpcMapper : IRegister
             .Map(dest => dest.Gender, src => src.Gender)
             .Map(dest => dest.Cpf, src => src.Cpf)
             .Map(dest => dest.Status, src => src.Status)
+            .Map(dest => dest.Page, src => src.Pagination.Page)
             .Map(dest => dest.PageSize, src => src.Pagination.PageSize)
             .Map(dest => dest.OrderBy, src => src.Pagination.OrderBy)
-            .Map(dest => dest.OrderDirection, src => src.Pagination.OrderDirection)
-            .Map(dest => dest.Cursor, src => src.Pagination.Cursor);
+            .Map(dest => dest.Order, src => src.Pagination.Order);
 
         config.NewConfig<GetPagedProfilesResponse, ListProfilesResponse>()
             .Map(dest => dest.Data, src => src.Data)
-            .Map(dest => dest.Pagination, src => src.Pagination);
+            .Map(dest => dest.Pagination, src => src.Pagination)
+            .UseDestinationValue(member =>
+                member.SetterModifier == AccessModifier.None
+            );
 
         config.NewConfig<List<ProfileResponse>, RepeatedField<Profile>>()
             .Map(dest => dest, src => src);
-        
+
+        config.NewConfig<PageInfoResponse, PagedResponse>()
+            .Map(dest => dest.Page, src => src.Page)
+            .Map(dest => dest.PageSize, src => src.PageSize)
+            .Map(dest => dest.TotalPages, src => src.TotalPages)
+            .Map(dest => dest.TotalElements, src => src.TotalElements)
+            .Map(dest => dest.IsFirstPage, src => src.IsFirstPage)
+            .Map(dest => dest.IsLastPage, src => src.IsLastPage)
+            .Map(dest => dest.HasNextPage, src => src.HasNextPage)
+            .Map(dest => dest.HasBackPage, src => src.HasBackPage)
+            .Map(dest => dest.NextPage, src => src.NextPage)
+            .Map(dest => dest.BackPage, src => src.BackPage);
+
         config.NewConfig<GetProfileRequest, GetByIdProfileRequest>()
             .Map(dest => dest.Id, src => src.ProfileId);
 

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package profiles.v1;
+
+option csharp_namespace = "JacksonVeroneze.GrpcServer.Contracts.Profiles.V1";
+
+enum OrderDirection {
+    ORDER_UNSPECIFIED = 0;
+    ORDER_ASCENDING = 1;
+    ORDER_DESCENDING = 2;
+}
+
+message PagedRequest {
+    optional int32 page = 1;
+    optional int32 page_size = 2;
+    optional string order_by = 3;
+    optional OrderDirection order = 4;
+}
+
+message PagedResponse {
+    int32 page = 1;
+    int32 page_size = 2;
+    int32 total_pages = 3;
+    int32 total_elements = 4;
+    bool is_first_page = 5;
+    bool is_last_page = 6;
+    bool has_next_page = 7;
+    bool has_back_page = 8;
+    int32 next_page = 9;
+    int32 back_page = 10;
+}

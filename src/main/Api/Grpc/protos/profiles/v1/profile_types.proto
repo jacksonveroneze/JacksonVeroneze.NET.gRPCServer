@@ -4,8 +4,6 @@ package profiles.v1;
 
 option csharp_namespace = "JacksonVeroneze.GrpcServer.Contracts.Profiles.V1";
 
-import "google/protobuf/timestamp.proto";
-
 enum ProfileStatus {
     PROFILE_STATUS_UNSPECIFIED = 0;
     PROFILE_STATUS_ACTIVE = 1;
@@ -27,6 +25,4 @@ message Profile {
     ProfileGender gender = 4;
     string cpf = 5;
     ProfileStatus status = 6;
-    google.protobuf.Timestamp created_at = 7;
-    google.protobuf.Timestamp updated_at = 8;
 }

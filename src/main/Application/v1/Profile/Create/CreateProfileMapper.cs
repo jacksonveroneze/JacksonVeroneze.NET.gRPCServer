@@ -13,6 +13,10 @@ public class CreateProfileMapper : IRegister
 
         config.NewConfig<CreateProfileRequest, Domain.Entities.Profile>()
             .ConstructUsing(dest => new Domain.Entities.Profile(
-                dest.FullName, dest.BirthDate, dest.Gender, dest.Cpf));
+                dest.FullName, dest.BirthDate, dest.Gender, dest.Cpf))
+            .Ignore(dest => dest.Id!)
+            .Ignore(dest => dest.Status!)
+            .Ignore(dest => dest.ActivatedOnUtc!)
+            .Ignore(dest => dest.InactivatedOnUtc!);
     }
 }

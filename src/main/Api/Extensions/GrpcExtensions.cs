@@ -12,9 +12,9 @@ public static class GrpcExtensions
     {
         services.AddGrpc(options =>
         {
-            // options.EnableDetailedErrors = enableDetailedErrors;
-            // options.Interceptors.Add<GrpcExceptionInterceptor>();
-            // options.Interceptors.Add<GrpcValidationInterceptor>();
+            options.EnableDetailedErrors = enableDetailedErrors;
+            options.Interceptors.Add<GrpcExceptionInterceptor>();
+            options.Interceptors.Add<GrpcValidationInterceptor>();
         });
         
         return services;

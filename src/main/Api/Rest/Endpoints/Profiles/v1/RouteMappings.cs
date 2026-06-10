@@ -14,6 +14,7 @@ internal static class RouteMappings
             .Factory(app, Resource, Version);
 
         builder.AddCreate()
+            .AddGetPaged()
             .AddGetById();
 
         return app;

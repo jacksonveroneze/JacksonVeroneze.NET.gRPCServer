@@ -41,12 +41,6 @@ public class ProfilePagedFilterBuilder(
             builder.And(d => d.Status == filter.Status);
         }
 
-        if (!string.IsNullOrWhiteSpace(filter.Cursor)
-            && Guid.TryParse(filter.Cursor, out var cursor))
-        {
-            builder.And(d => d.Id > cursor);
-        }
-
         return builder.Build();
     }
 }

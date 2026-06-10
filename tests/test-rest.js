@@ -3,7 +3,7 @@ import {check} from 'k6';
 import {factoryHeaders, getToken} from "./scenarios/util.js";
 import {randomItem} from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 
-const BASE_URL = __ENV.BASE_URL || "http://10.0.0.150:7000";
+const BASE_URL = __ENV.BASE_URL || "https://localhost:8093";
 const READ_PATH = __ENV.READ_PATH || "/v1/profiles";
 const READ_TIMEOUT = __ENV.READ_TIMEOUT || "3s";
 
@@ -24,9 +24,7 @@ export const options = {
                 { duration: "30s", target: 100 },
                 { duration: "30s", target: 250 },
                 { duration: "30s", target: 500 },
-                { duration: "30s", target: 750 },
-                { duration: "30s", target: 1000 },
-                { duration: "30s", target: 1250 },
+                { duration: "60s", target: 750 },
                 { duration: "30s", target: 0 },
             ],
 
@@ -53,6 +51,26 @@ export function setup() {
     return {headers, ids};
 }
 
+// export default function (data) {
+//     const headers = {
+//         ...data.headers,
+//         "x-correlation-id": crypto.randomUUID(),
+//     };
+//
+//     const id = randomItem(data.ids);
+//     const url = `${BASE_URL}${READ_PATH}/${id}`;
+//
+//     const res = http.get(url, {
+//         timeout: READ_TIMEOUT,
+//         headers: headers,
+//         tags: {name: "GET /v1/profiles"},
+//     });
+//
+//     check(res, {
+//         "status is OK": (r) => r.status === 200,
+//     });
+// }
+
 export default function (data) {
     const headers = {
         ...data.headers,
@@ -60,7 +78,7 @@ export default function (data) {
     };
 
     const id = randomItem(data.ids);
-    const url = `${BASE_URL}${READ_PATH}/${id}`;
+    const url = `${BASE_URL}${READ_PATH}?page=1&pageSize=50`;
 
     const res = http.get(url, {
         timeout: READ_TIMEOUT,

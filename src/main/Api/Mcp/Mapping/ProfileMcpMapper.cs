@@ -14,6 +14,7 @@ public class ProfileMcpMapper : IRegister
             .Map(dest => dest.FullName, src => src.FullName)
             .Map(dest => dest.BirthDate, src => src.BirthDate)
             .Map(dest => dest.Gender, src => src.Gender)
+            .Map(dest => dest.Cpf, src => src.Cpf)
             .Map(dest => dest.Cpf, src => src.Cpf);
     }
 }

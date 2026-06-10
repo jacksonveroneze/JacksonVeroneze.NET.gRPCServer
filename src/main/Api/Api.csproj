@@ -5,21 +5,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
     <PackageReference Include="Asp.Versioning.Http"/>
+    <PackageReference Include="Google.Protobuf" />
+    <PackageReference Include="Grpc.Core.Api" />
+    <PackageReference Include="Grpc.Tools" />
     <PackageReference Include="ModelContextProtocol"/>
     <PackageReference Include="ModelContextProtocol.AspNetCore"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <Protobuf Include="Grpc\protos\profiles\v1\pagination_types.proto" GrpcServices="None" ProtoRoot="Grpc/protos"/>
+    <Protobuf Include="Grpc\protos\profiles\v1\profile_types.proto" GrpcServices="None" ProtoRoot="Grpc/protos"/>
+    <Protobuf Include="Grpc\protos\profiles\v1\profile_command_service.proto" GrpcServices="Server" ProtoRoot="Grpc/protos"/>
+    <Protobuf Include="Grpc\protos\profiles\v1\profile_query_service.proto" GrpcServices="Server" ProtoRoot="Grpc/protos"/>
+  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj"/>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
-    <ProjectReference Include="..\Contracts\Contracts.csproj"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Rest\"/>
   </ItemGroup>
 
 </Project>

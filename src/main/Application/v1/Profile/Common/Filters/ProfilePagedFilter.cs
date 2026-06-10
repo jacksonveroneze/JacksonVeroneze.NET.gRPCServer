@@ -1,11 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using JacksonVeroneze.NET.GRPCServer.Domain.Enums;
-using JacksonVeroneze.NET.Pagination.Cursor;
+using JacksonVeroneze.NET.Pagination.Offset;
 
 namespace JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Common.Filters;
 
 [ExcludeFromCodeCoverage]
-public record ProfilePagedFilter
+public sealed record ProfilePagedFilter
 {
     public string? FullName { get; init; }
 
@@ -14,8 +14,6 @@ public record ProfilePagedFilter
     public string? Cpf { get; init; }
 
     public ProfileStatus? Status { get; init; }
-
-    public string? Cursor { get; init; }
 
     public PaginationParameters? Pagination { get; init; }
 }

@@ -37,7 +37,7 @@ public sealed class ApiKeyAuthenticationHandler(
 {
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        string headerName = string.IsNullOrWhiteSpace(Options.HeaderName)
+        var headerName = string.IsNullOrWhiteSpace(Options.HeaderName)
             ? ApiKeyAuthenticationDefaults.HeaderName
             : Options.HeaderName;
 
@@ -81,7 +81,7 @@ public sealed class ApiKeyAuthenticationHandler(
             return null;
         }
 
-        byte[] actualHash = SHA256.HashData(Encoding.UTF8.GetBytes(apiKey));
+        var actualHash = SHA256.HashData(Encoding.UTF8.GetBytes(apiKey));
         DateTimeOffset now = TimeProvider.System.GetUtcNow();
 
         foreach (ApiKeyCredentialOptions credential in Options.ApiKeys)
@@ -91,7 +91,7 @@ public sealed class ApiKeyAuthenticationHandler(
                 continue;
             }
 
-            byte[]? expectedHash = TryParseSha256Hash(credential.KeyHash);
+            var expectedHash = TryParseSha256Hash(credential.KeyHash);
 
             if (expectedHash is null || expectedHash.Length != actualHash.Length)
             {
@@ -119,7 +119,7 @@ public sealed class ApiKeyAuthenticationHandler(
 
     private static byte[]? TryParseSha256Hash(string keyHash)
     {
-        string normalizedHash = keyHash
+        var normalizedHash = keyHash
             .Replace(":", string.Empty, StringComparison.Ordinal)
             .Replace("-", string.Empty, StringComparison.Ordinal)
             .Trim();
@@ -149,12 +149,9 @@ public sealed class ApiKeyAuthenticationHandler(
             new(ApiKeyAuthenticationClaimTypes.AuthenticationType, "api_key"),
         };
 
-        foreach (string scope in credential.Scopes
-                     .Where(scope => !string.IsNullOrWhiteSpace(scope))
-                     .Distinct(StringComparer.Ordinal))
-        {
-            claims.Add(new Claim(ApiKeyAuthenticationClaimTypes.Scope, scope));
-        }
+        claims.AddRange(credential.Scopes.Where(scope => !string.IsNullOrWhiteSpace(scope))
+            .Distinct(StringComparer.Ordinal)
+            .Select(scope => new Claim(ApiKeyAuthenticationClaimTypes.Scope, scope)));
 
         return [.. claims];
     }

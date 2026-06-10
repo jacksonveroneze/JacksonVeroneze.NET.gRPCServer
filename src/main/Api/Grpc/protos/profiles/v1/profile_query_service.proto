@@ -9,10 +9,10 @@ import "profiles/v1/pagination_types.proto";
 
 message ListProfilesRequest {
     optional string full_name = 1;
-    optional ProfileGender gender = 2;
-    optional string cpf = 3;
+    optional string cpf = 2;
+    optional ProfileGender gender = 3;
     optional ProfileStatus status = 4;
-    optional PagedRequest pagination = 6;
+    optional PagedRequest pagination = 5;
 }
 
 message ListProfilesResponse {
