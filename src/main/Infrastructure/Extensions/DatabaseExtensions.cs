@@ -24,7 +24,7 @@ public static class DatabaseExtensions
             services.AddRepository()
                 .InternalAddDatabase<DefaultDbContext>(
                     appConfiguration.Database!.ConnectionString!, 
-                    environment, useInMemory: false);
+                    environment, useSqlite: true);
 
             return services;
         }
@@ -33,14 +33,14 @@ public static class DatabaseExtensions
             string connectionString,
             IHostEnvironment environment,
             QueryTrackingBehavior behavior = QueryTrackingBehavior.NoTracking,
-            bool useInMemory = false)
+            bool useSqlite = false)
             where TContext : DbContext
         {
             ArgumentException.ThrowIfNullOrEmpty(connectionString);
 
             services.AddDbContext<TContext>((_, options) =>
             {
-                if (!useInMemory)
+                if (!useSqlite)
                 {
                     options.UseNpgsql(connectionString, conf =>
                         {
@@ -52,7 +52,7 @@ public static class DatabaseExtensions
                 }
                 else
                 {
-                    options.UseInMemoryDatabase("db_name")
+                    options.UseSqlite("Data Source=app.db")
                         .UseQueryTrackingBehavior(behavior)
                         .ConfigureOptionsDatabase(environment);
                 }

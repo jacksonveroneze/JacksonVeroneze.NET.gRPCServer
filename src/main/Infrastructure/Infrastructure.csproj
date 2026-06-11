@@ -21,7 +21,7 @@
 
     <PackageReference Include="EFCore.NamingConventions"/>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"/>
 
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis"/>
 
