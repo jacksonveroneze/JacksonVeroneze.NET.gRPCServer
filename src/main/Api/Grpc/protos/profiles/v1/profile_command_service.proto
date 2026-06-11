@@ -11,6 +11,21 @@ message CreateProfileRequest {
     string birth_date = 2;
     string cpf = 3;
     ProfileGender gender = 4;
+    string email = 5;
+    string phone_number = 6;
+    string mother_name = 7;
+    string father_name = 8;
+    string nationality = 9;
+    string birth_city = 10;
+    string birth_state = 11;
+    string street = 12;
+    string address_number = 13;
+    string complement = 14;
+    string neighborhood = 15;
+    string city = 16;
+    string state = 17;
+    string zip_code = 18;
+    string country = 19;
 }
 
 message CreateProfileResponse {

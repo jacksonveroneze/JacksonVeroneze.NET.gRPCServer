@@ -15,16 +15,17 @@ export const options = {
     scenarios: {
         get_profile: {
             executor: "ramping-arrival-rate",
-            startRate: 100,
+            startRate: 1,
             timeUnit: "1s",
 
             stages: [
-                { duration: "10s", target: 1 },
-                { duration: "30s", target: 50 },
-                { duration: "30s", target: 100 },
+                { duration: "5s", target: 1 },
+                { duration: "15s", target: 100 },
                 { duration: "30s", target: 250 },
                 { duration: "30s", target: 500 },
-                { duration: "60s", target: 750 },
+                { duration: "30s", target: 750 },
+                { duration: "30s", target: 1000 },
+                { duration: "30s", target: 1250 },
                 { duration: "30s", target: 0 },
             ],
 
@@ -40,6 +41,8 @@ export const options = {
         http_req_duration: ["p(95)<300"],
         dropped_iterations: ["count==0"],
     },
+
+    summaryTrendStats: ["avg", "min", "med", "p(90)", "p(95)", "p(99)", "max"],
 };
 
 export function setup() {
@@ -77,13 +80,12 @@ export default function (data) {
         "x-correlation-id": crypto.randomUUID(),
     };
 
-    const id = randomItem(data.ids);
     const url = `${BASE_URL}${READ_PATH}?page=1&pageSize=50`;
 
     const res = http.get(url, {
         timeout: READ_TIMEOUT,
         headers: headers,
-        tags: {name: "GET /v1/profiles"},
+        tags: {name: "GET ListProfiles"},
     });
 
     check(res, {

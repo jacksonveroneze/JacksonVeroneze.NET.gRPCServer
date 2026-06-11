@@ -25,4 +25,21 @@ message Profile {
     ProfileGender gender = 4;
     string cpf = 5;
     ProfileStatus status = 6;
+    string email = 7;
+    string phone_number = 8;
+    string mother_name = 9;
+    string father_name = 10;
+    string nationality = 11;
+    string birth_city = 12;
+    string birth_state = 13;
+    string street = 14;
+    string address_number = 15;
+    string complement = 16;
+    string neighborhood = 17;
+    string city = 18;
+    string state = 19;
+    string zip_code = 20;
+    string country = 21;
+    string actived_on_utc = 22;
+    string inactived_on_utc = 23;
 }

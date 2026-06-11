@@ -14,7 +14,7 @@ public static class GrpcExtensions
         {
             options.EnableDetailedErrors = enableDetailedErrors;
             options.Interceptors.Add<GrpcExceptionInterceptor>();
-            options.Interceptors.Add<GrpcValidationInterceptor>();
+            //options.Interceptors.Add<GrpcValidationInterceptor>();
         });
         
         return services;

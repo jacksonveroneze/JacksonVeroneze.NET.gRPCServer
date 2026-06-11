@@ -8,11 +8,8 @@ internal static class MapGrpcServices
     public static WebApplication AddGrpcServices(
         this WebApplication app)
     {
-        app.MapGrpcService<ProfileCommandGrpcService>()
-            .RequireAuthorization(AuthorizationPolicies.JwtAccess);
-        
-        app.MapGrpcService<ProfileQueryGrpcService>()
-            .RequireAuthorization(AuthorizationPolicies.JwtAccess);
+        app.MapGrpcService<ProfileCommandGrpcService>();
+        app.MapGrpcService<ProfileQueryGrpcService>();
 
         return app;
     }

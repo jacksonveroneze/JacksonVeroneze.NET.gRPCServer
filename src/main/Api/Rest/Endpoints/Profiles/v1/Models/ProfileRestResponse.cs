@@ -1,8 +1,8 @@
 using JacksonVeroneze.NET.GRPCServer.Domain.Enums;
 
-namespace JacksonVeroneze.NET.GRPCServer.Application.v1.Profile.Common.Models;
+namespace JacksonVeroneze.NET.GRPCServer.Api.Rest.Endpoints.Profiles.v1.Models;
 
-public sealed record ProfileResponse(
+internal sealed record ProfileRestResponse(
     Guid Id,
     string FullName,
     DateOnly? BirthDate,

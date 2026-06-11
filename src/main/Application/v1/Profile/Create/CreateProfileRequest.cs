@@ -7,5 +7,20 @@ public sealed record CreateProfileRequest(
     string FullName,
     DateOnly BirthDate,
     Gender Gender,
-    string Cpf)
+    string Cpf,
+    string? Email,
+    string? PhoneNumber,
+    string? MotherName,
+    string? FatherName,
+    string? Nationality,
+    string? BirthCity,
+    string? BirthState,
+    string? Street,
+    string? AddressNumber,
+    string? Complement,
+    string? Neighborhood,
+    string? City,
+    string? State,
+    string? ZipCode,
+    string? Country)
     : IBaseRequest;

@@ -19,6 +19,36 @@ public sealed class Profile : Entity
 
     public ProfileStatus Status { get; private set; }
 
+    public string? Email { get; private set; }
+
+    public string? PhoneNumber { get; private set; }
+
+    public string? MotherName { get; private set; }
+
+    public string? FatherName { get; private set; }
+
+    public string? Nationality { get; private set; }
+
+    public string? BirthCity { get; private set; }
+
+    public string? BirthState { get; private set; }
+
+    public string? Street { get; private set; }
+
+    public string? AddressNumber { get; private set; }
+
+    public string? Complement { get; private set; }
+
+    public string? Neighborhood { get; private set; }
+
+    public string? City { get; private set; }
+
+    public string? State { get; private set; }
+
+    public string? ZipCode { get; private set; }
+
+    public string? Country { get; private set; }
+
     public DateTimeOffset? ActivatedOnUtc { get; private set; }
 
     public DateTimeOffset? InactivatedOnUtc { get; private set; }
@@ -29,8 +59,25 @@ public sealed class Profile : Entity
     {
     }
 
-    public Profile(string fullName, DateOnly birthDate,
-        Gender gender, string cpf)
+    public Profile(string fullName,
+        DateOnly birthDate,
+        Gender gender,
+        string cpf,
+        string? email = null,
+        string? phoneNumber = null,
+        string? motherName = null,
+        string? fatherName = null,
+        string? nationality = null,
+        string? birthCity = null,
+        string? birthState = null,
+        string? street = null,
+        string? addressNumber = null,
+        string? complement = null,
+        string? neighborhood = null,
+        string? city = null,
+        string? state = null,
+        string? zipCode = null,
+        string? country = null)
     {
         ArgumentException.ThrowIfNullOrEmpty(fullName);
         ArgumentException.ThrowIfNullOrEmpty(cpf);
@@ -40,6 +87,22 @@ public sealed class Profile : Entity
         BirthDate = birthDate;
         Gender = gender;
         Cpf = cpf;
+
+        Email = email;
+        PhoneNumber = phoneNumber;
+        MotherName = motherName;
+        FatherName = fatherName;
+        Nationality = nationality;
+        BirthCity = birthCity;
+        BirthState = birthState;
+        Street = street;
+        AddressNumber = addressNumber;
+        Complement = complement;
+        Neighborhood = neighborhood;
+        City = city;
+        State = state;
+        ZipCode = zipCode;
+        Country = country;
 
         Status = ProfileStatus.PendingActivation;
     }

@@ -12,8 +12,26 @@ public class CreateProfileMapper : IRegister
             .Map(dest => dest.Data, src => src);
 
         config.NewConfig<CreateProfileRequest, Domain.Entities.Profile>()
-            .ConstructUsing(dest => new Domain.Entities.Profile(
-                dest.FullName, dest.BirthDate, dest.Gender, dest.Cpf))
+            .ConstructUsing(src => new Domain.Entities.Profile(
+                src.FullName,
+                src.BirthDate,
+                src.Gender,
+                src.Cpf,
+                src.Email,
+                src.PhoneNumber,
+                src.MotherName,
+                src.FatherName,
+                src.Nationality,
+                src.BirthCity,
+                src.BirthState,
+                src.Street,
+                src.AddressNumber,
+                src.Complement,
+                src.Neighborhood,
+                src.City,
+                src.State,
+                src.ZipCode,
+                src.Country))
             .Ignore(dest => dest.Id!)
             .Ignore(dest => dest.Status!)
             .Ignore(dest => dest.ActivatedOnUtc!)

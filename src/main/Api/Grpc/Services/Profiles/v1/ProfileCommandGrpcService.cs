@@ -18,7 +18,7 @@ public class ProfileCommandGrpcService(
     IInactivateProfileUseCase inactivateProfileUseCase)
     : ProfileCommandService.ProfileCommandServiceBase
 {
-    [Authorize(Policy = AuthorizationPolicies.ProfilesCreate)]
+    // [Authorize(Policy = AuthorizationPolicies.ProfilesCreate)]
     public override async Task<ContractsV1.CreateProfileResponse> CreateProfile(
         ContractsV1.CreateProfileRequest request, 
         ServerCallContext context)
@@ -40,7 +40,7 @@ public class ProfileCommandGrpcService(
         return response;
     }
 
-    [Authorize(Policy = AuthorizationPolicies.ProfilesActivate)]
+    // [Authorize(Policy = AuthorizationPolicies.ProfilesActivate)]
     public override async Task<ActivateProfileResponse> ActivateProfile(
         ContractsV1.ActivateProfileRequest request, 
         ServerCallContext context)
@@ -61,7 +61,7 @@ public class ProfileCommandGrpcService(
         return response;
     }
 
-    [Authorize(Policy = AuthorizationPolicies.ProfilesInactivate)]
+    // [Authorize(Policy = AuthorizationPolicies.ProfilesInactivate)]
     public override async Task<InactivateProfileResponse> InactivateProfile(
         ContractsV1.InactivateProfileRequest request, 
         ServerCallContext context)

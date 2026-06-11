@@ -42,10 +42,55 @@ public class ProfileMapping : IEntityTypeConfiguration<Profile>
         builder.Property(c => c.Status)
             .IsRequired();
 
+        builder.Property(c => c.Email)
+            .HasMaxLength(150);
+
+        builder.Property(c => c.PhoneNumber)
+            .HasMaxLength(30);
+
+        builder.Property(c => c.MotherName)
+            .HasMaxLength(100);
+
+        builder.Property(c => c.FatherName)
+            .HasMaxLength(100);
+
+        builder.Property(c => c.Nationality)
+            .HasMaxLength(60);
+
+        builder.Property(c => c.BirthCity)
+            .HasMaxLength(80);
+
+        builder.Property(c => c.BirthState)
+            .HasMaxLength(40);
+
+        builder.Property(c => c.Street)
+            .HasMaxLength(150);
+
+        builder.Property(c => c.AddressNumber)
+            .HasMaxLength(20);
+
+        builder.Property(c => c.Complement)
+            .HasMaxLength(80);
+
+        builder.Property(c => c.Neighborhood)
+            .HasMaxLength(80);
+
+        builder.Property(c => c.City)
+            .HasMaxLength(80);
+
+        builder.Property(c => c.State)
+            .HasMaxLength(40);
+
+        builder.Property(c => c.ZipCode)
+            .HasMaxLength(20);
+
+        builder.Property(c => c.Country)
+            .HasMaxLength(60);
+
         builder.Property(c => c.ActivatedOnUtc);
 
         builder.Property(c => c.InactivatedOnUtc);
-        
+
         builder.Property(c => c.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("NOW()");
