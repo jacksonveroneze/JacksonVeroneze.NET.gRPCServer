@@ -21,7 +21,7 @@ public sealed class Profile : Entity
 
     public string? Email { get; private set; }
 
-    public string? PhoneNumber { get; private set; }
+    public long PhoneNumber { get; private set; }
 
     public string? MotherName { get; private set; }
 
@@ -29,15 +29,9 @@ public sealed class Profile : Entity
 
     public string? Nationality { get; private set; }
 
-    public string? BirthCity { get; private set; }
-
-    public string? BirthState { get; private set; }
-
     public string? Street { get; private set; }
 
-    public string? AddressNumber { get; private set; }
-
-    public string? Complement { get; private set; }
+    public int AddressNumber { get; private set; }
 
     public string? Neighborhood { get; private set; }
 
@@ -49,35 +43,51 @@ public sealed class Profile : Entity
 
     public string? Country { get; private set; }
 
+    public int DependentsCount { get; private set; }
+
+    public bool IsPoliticallyExposed { get; private set; }
+
+    public bool IsEmailVerified { get; private set; }
+
+    public ProfileRiskLevel RiskLevel { get; private set; }
+
+    public double Latitude { get; private set; }
+
+    public double Longitude { get; private set; }
+
     public DateTimeOffset? ActivatedOnUtc { get; private set; }
 
     public DateTimeOffset? InactivatedOnUtc { get; private set; }
 
-    #region ctor
+    #region Ctor
 
     private Profile()
     {
     }
 
-    public Profile(string fullName,
+    public Profile(
+        string fullName,
         DateOnly birthDate,
         Gender gender,
         string cpf,
-        string? email = null,
-        string? phoneNumber = null,
-        string? motherName = null,
-        string? fatherName = null,
-        string? nationality = null,
-        string? birthCity = null,
-        string? birthState = null,
-        string? street = null,
-        string? addressNumber = null,
-        string? complement = null,
-        string? neighborhood = null,
-        string? city = null,
-        string? state = null,
-        string? zipCode = null,
-        string? country = null)
+        string? email,
+        long phoneNumber,
+        string? motherName,
+        string? fatherName,
+        string? nationality,
+        string? street,
+        int addressNumber,
+        string? neighborhood,
+        string? city,
+        string? state,
+        string? zipCode,
+        string? country,
+        int dependentsCount,
+        bool isPoliticallyExposed,
+        bool isEmailVerified,
+        ProfileRiskLevel riskLevel,
+        double latitude,
+        double longitude)
     {
         ArgumentException.ThrowIfNullOrEmpty(fullName);
         ArgumentException.ThrowIfNullOrEmpty(cpf);
@@ -93,16 +103,20 @@ public sealed class Profile : Entity
         MotherName = motherName;
         FatherName = fatherName;
         Nationality = nationality;
-        BirthCity = birthCity;
-        BirthState = birthState;
         Street = street;
         AddressNumber = addressNumber;
-        Complement = complement;
         Neighborhood = neighborhood;
         City = city;
         State = state;
         ZipCode = zipCode;
         Country = country;
+
+        DependentsCount = dependentsCount;
+        IsPoliticallyExposed = isPoliticallyExposed;
+        IsEmailVerified = isEmailVerified;
+        RiskLevel = riskLevel;
+        Latitude = latitude;
+        Longitude = longitude;
 
         Status = ProfileStatus.PendingActivation;
     }

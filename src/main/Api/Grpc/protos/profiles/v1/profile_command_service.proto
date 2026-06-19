@@ -9,23 +9,26 @@ import "profiles/v1/profile_types.proto";
 message CreateProfileRequest {
     string full_name = 1;
     string birth_date = 2;
-    string cpf = 3;
-    ProfileGender gender = 4;
+    ProfileGender gender = 3;
+    string cpf = 4;
     string email = 5;
-    string phone_number = 6;
+    uint64 phone_number = 6;
     string mother_name = 7;
     string father_name = 8;
     string nationality = 9;
-    string birth_city = 10;
-    string birth_state = 11;
-    string street = 12;
-    string address_number = 13;
-    string complement = 14;
-    string neighborhood = 15;
-    string city = 16;
-    string state = 17;
-    string zip_code = 18;
-    string country = 19;
+    string street = 10;
+    int32 address_number = 11;
+    string neighborhood = 12;
+    string city = 13;
+    string state = 14;
+    string zip_code = 15;
+    string country = 16;
+    int32 dependents_count = 17;
+    bool is_politically_exposed = 18;
+    bool is_email_verified = 19;
+    ProfileRiskLevel risk_level = 20;
+    double latitude = 21;
+    double longitude = 22;
 }
 
 message CreateProfileResponse {

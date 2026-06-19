@@ -16,13 +16,6 @@ public class GetPagedProfilesMapper : IRegister
             .Map(dest => dest.Cpf, src => src.Cpf)
             .Map(dest => dest.Status, src => src.Status)
             .Map(dest => dest.Pagination, src => src);
-
-        config.NewConfig<GetPagedProfilesRequest, ProfilePagedFilter>()
-            .Map(dest => dest.FullName, src => src.FullName)
-            .Map(dest => dest.Gender, src => src.Gender)
-            .Map(dest => dest.Cpf, src => src.Cpf)
-            .Map(dest => dest.Status, src => src.Status)
-            .Map(dest => dest.Pagination, src => src);
         
         config.NewConfig<GetPagedProfilesRequest, PaginationParameters>()
             .ConstructUsing(src =>

@@ -14,7 +14,7 @@ public class ProfileQueryGrpcService(
     IGetByIdProfileUseCase getByIdProfileUseCase)
     : ProfileQueryService.ProfileQueryServiceBase
 {
-    // [Authorize(Policy = AuthorizationPolicies.ProfilesRead)]
+    [Authorize(Policy = AuthorizationPolicies.ProfilesRead)]
     public override async Task<ListProfilesResponse> ListProfiles(
         ListProfilesRequest request, 
         ServerCallContext context)
@@ -34,7 +34,7 @@ public class ProfileQueryGrpcService(
         return response;
     }
 
-    // [Authorize(Policy = AuthorizationPolicies.ProfilesRead)]
+    [Authorize(Policy = AuthorizationPolicies.ProfilesRead)]
     public override async Task<GetProfileResponse> GetProfile(
         GetProfileRequest request, 
         ServerCallContext context)

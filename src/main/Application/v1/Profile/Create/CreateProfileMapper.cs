@@ -13,25 +13,28 @@ public class CreateProfileMapper : IRegister
 
         config.NewConfig<CreateProfileRequest, Domain.Entities.Profile>()
             .ConstructUsing(src => new Domain.Entities.Profile(
-                src.FullName,
-                src.BirthDate,
-                src.Gender,
-                src.Cpf,
-                src.Email,
-                src.PhoneNumber,
-                src.MotherName,
-                src.FatherName,
-                src.Nationality,
-                src.BirthCity,
-                src.BirthState,
-                src.Street,
-                src.AddressNumber,
-                src.Complement,
-                src.Neighborhood,
-                src.City,
-                src.State,
-                src.ZipCode,
-                src.Country))
+                fullName: src.FullName,
+                birthDate: src.BirthDate,
+                gender: src.Gender,
+                cpf: src.Cpf,
+                email: src.Email,
+                phoneNumber: src.PhoneNumber,
+                motherName: src.MotherName,
+                fatherName: src.FatherName,
+                nationality: src.Nationality,
+                street: src.Street,
+                addressNumber: src.AddressNumber,
+                neighborhood: src.Neighborhood,
+                city: src.City,
+                state: src.State,
+                zipCode: src.ZipCode,
+                country: src.Country,
+                dependentsCount: src.DependentsCount,
+                isPoliticallyExposed: src.IsPoliticallyExposed,
+                isEmailVerified: src.IsEmailVerified,
+                riskLevel: src.RiskLevel,
+                latitude: src.Latitude,
+                longitude: src.Longitude))
             .Ignore(dest => dest.Id!)
             .Ignore(dest => dest.Status!)
             .Ignore(dest => dest.ActivatedOnUtc!)

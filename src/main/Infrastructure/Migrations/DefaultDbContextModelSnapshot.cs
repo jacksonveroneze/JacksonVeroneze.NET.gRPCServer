@@ -4,6 +4,7 @@ using JacksonVeroneze.NET.GRPCServer.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -17,140 +18,149 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("profile")
-                .HasAnnotation("ProductVersion", "10.0.8");
+                .HasAnnotation("ProductVersion", "10.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("JacksonVeroneze.NET.GRPCServer.Domain.Entities.Profile", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("TEXT")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<DateTimeOffset?>("ActivatedOnUtc")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("activated_on_utc");
 
-                    b.Property<string>("AddressNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT")
+                    b.Property<int>("AddressNumber")
+                        .HasColumnType("integer")
                         .HasColumnName("address_number");
 
-                    b.Property<string>("BirthCity")
-                        .HasMaxLength(80)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("birth_city");
-
                     b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("date")
                         .HasColumnName("birth_date");
-
-                    b.Property<string>("BirthState")
-                        .HasMaxLength(40)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("birth_state");
 
                     b.Property<string>("City")
                         .HasMaxLength(80)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("city");
-
-                    b.Property<string>("Complement")
-                        .HasMaxLength(80)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("complement");
 
                     b.Property<string>("Country")
                         .HasMaxLength(60)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(60)")
                         .HasColumnName("country");
 
                     b.Property<string>("Cpf")
                         .IsRequired()
                         .HasMaxLength(11)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(11)")
                         .HasColumnName("cpf");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("NOW()");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
+
+                    b.Property<int>("DependentsCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("dependents_count");
 
                     b.Property<string>("Email")
                         .HasMaxLength(150)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("email");
 
                     b.Property<string>("FatherName")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("father_name");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("full_name");
 
                     b.Property<int>("Gender")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("gender");
 
                     b.Property<DateTimeOffset?>("InactivatedOnUtc")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("inactivated_on_utc");
+
+                    b.Property<bool>("IsEmailVerified")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_email_verified");
+
+                    b.Property<bool>("IsPoliticallyExposed")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_politically_exposed");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision")
+                        .HasColumnName("latitude");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double precision")
+                        .HasColumnName("longitude");
 
                     b.Property<string>("MotherName")
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("mother_name");
 
                     b.Property<string>("Nationality")
                         .HasMaxLength(60)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(60)")
                         .HasColumnName("nationality");
 
                     b.Property<string>("Neighborhood")
                         .HasMaxLength(80)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("neighborhood");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(30)
-                        .HasColumnType("TEXT")
+                    b.Property<long>("PhoneNumber")
+                        .HasColumnType("bigint")
                         .HasColumnName("phone_number");
+
+                    b.Property<int>("RiskLevel")
+                        .HasColumnType("integer")
+                        .HasColumnName("risk_level");
 
                     b.Property<string>("State")
                         .HasMaxLength(40)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(40)")
                         .HasColumnName("state");
 
                     b.Property<int>("Status")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("status");
 
                     b.Property<string>("Street")
                         .HasMaxLength(150)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("street");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.Property<int>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasDefaultValue(1)
                         .HasColumnName("version");
 
                     b.Property<string>("ZipCode")
                         .HasMaxLength(20)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("zip_code");
 
                     b.HasKey("Id")
@@ -158,7 +168,7 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Migrations
 
                     b.HasIndex("Cpf")
                         .IsUnique()
-                        .HasDatabaseName("ix_profile_cpf");
+                        .HasDatabaseName("ux_profile_cpf");
 
                     b.ToTable("profile", "profile");
                 });

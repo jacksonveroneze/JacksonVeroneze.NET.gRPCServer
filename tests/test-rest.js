@@ -3,7 +3,7 @@ import {check} from 'k6';
 import {factoryHeaders, getToken} from "./scenarios/util.js";
 import {randomItem} from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 
-const BASE_URL = __ENV.BASE_URL || "https://localhost:8093";
+const BASE_URL = __ENV.BASE_URL || "https://localhost:8093/rest";
 const READ_PATH = __ENV.READ_PATH || "/v1/profiles";
 const READ_TIMEOUT = __ENV.READ_TIMEOUT || "3s";
 
@@ -23,14 +23,11 @@ export const options = {
                 { duration: "15s", target: 100 },
                 { duration: "30s", target: 250 },
                 { duration: "30s", target: 500 },
-                { duration: "30s", target: 750 },
-                { duration: "30s", target: 1000 },
-                { duration: "30s", target: 1250 },
                 { duration: "30s", target: 0 },
             ],
 
             preAllocatedVUs: 200,
-            maxVUs: 1250,
+            maxVUs: 1500,
             gracefulStop: "30s",
         },
     },

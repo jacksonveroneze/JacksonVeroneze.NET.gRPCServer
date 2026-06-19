@@ -24,7 +24,7 @@ public static class DatabaseExtensions
             services.AddRepository()
                 .InternalAddDatabase<DefaultDbContext>(
                     appConfiguration.Database!.ConnectionString!, 
-                    environment, useSqlite: true);
+                    environment, useSqlite: false);
 
             return services;
         }

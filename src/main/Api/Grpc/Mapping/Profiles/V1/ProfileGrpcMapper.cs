@@ -18,7 +18,7 @@ public class ProfileGrpcMapper : IRegister
 
         #region common
 
-        config.NewConfig<ProfileResponse, Profile>()
+config.NewConfig<ProfileResponse, Profile>()
             .Map(dest => dest.ProfileId, src => src.Id.ToString())
             .Map(dest => dest.FullName, src => src.FullName)
             .Map(dest => dest.BirthDate, src => src.BirthDate.HasValue
@@ -27,52 +27,65 @@ public class ProfileGrpcMapper : IRegister
             .Map(dest => dest.Gender, src => src.Gender)
             .Map(dest => dest.Cpf, src => src.Cpf ?? string.Empty)
             .Map(dest => dest.Status, src => src.Status)
-            .Map(dest => dest.ActivedOnUtc, src => src.ActivedOnUtc.HasValue
-                ? src.ActivedOnUtc.Value.ToString("O", CultureInfo.InvariantCulture)
-                : string.Empty)
-            .Map(dest => dest.InactivedOnUtc, src => src.InactivedOnUtc.HasValue
-                ? src.InactivedOnUtc.Value.ToString("O", CultureInfo.InvariantCulture)
-                : string.Empty)
+
             .Map(dest => dest.Email, src => src.Email ?? string.Empty)
-            .Map(dest => dest.PhoneNumber, src => src.PhoneNumber ?? string.Empty)
+            .Map(dest => dest.PhoneNumber, src => checked((ulong)src.PhoneNumber))
             .Map(dest => dest.MotherName, src => src.MotherName ?? string.Empty)
             .Map(dest => dest.FatherName, src => src.FatherName ?? string.Empty)
             .Map(dest => dest.Nationality, src => src.Nationality ?? string.Empty)
-            .Map(dest => dest.BirthCity, src => src.BirthCity ?? string.Empty)
-            .Map(dest => dest.BirthState, src => src.BirthState ?? string.Empty)
             .Map(dest => dest.Street, src => src.Street ?? string.Empty)
-            .Map(dest => dest.AddressNumber, src => src.AddressNumber ?? string.Empty)
-            .Map(dest => dest.Complement, src => src.Complement ?? string.Empty)
+            .Map(dest => dest.AddressNumber, src => src.AddressNumber)
             .Map(dest => dest.Neighborhood, src => src.Neighborhood ?? string.Empty)
             .Map(dest => dest.City, src => src.City ?? string.Empty)
             .Map(dest => dest.State, src => src.State ?? string.Empty)
             .Map(dest => dest.ZipCode, src => src.ZipCode ?? string.Empty)
-            .Map(dest => dest.Country, src => src.Country ?? string.Empty);
+            .Map(dest => dest.Country, src => src.Country ?? string.Empty)
+
+            .Map(dest => dest.DependentsCount, src => src.DependentsCount)
+            .Map(dest => dest.IsPoliticallyExposed, src => src.IsPoliticallyExposed)
+            .Map(dest => dest.IsEmailVerified, src => src.IsEmailVerified)
+            .Map(dest => dest.RiskLevel, src => src.RiskLevel)
+            .Map(dest => dest.Latitude, src => src.Latitude)
+            .Map(dest => dest.Longitude, src => src.Longitude)
+
+            .Map(dest => dest.ActivatedOnUnixMs, src => src.ActivedOnUtc.HasValue
+                ? src.ActivedOnUtc.Value.ToUnixTimeMilliseconds()
+                : default)
+            .Map(dest => dest.InactivatedOnUnixMs, src => src.InactivedOnUtc.HasValue
+                ? src.InactivedOnUtc.Value.ToUnixTimeMilliseconds()
+                : default);
 
         #endregion
 
         #region command
 
-        config.NewConfig<CreateProfileRequest, ContractsApp.Create.CreateProfileRequest>()
+        config.NewConfig<CreateProfileRequest, Application.v1.Profile.Create.CreateProfileRequest>()
             .Map(dest => dest.FullName, src => src.FullName)
-            .Map(dest => dest.BirthDate, src => src.BirthDate)
+            .Map(dest => dest.BirthDate, src =>
+                DateOnly.ParseExact(
+                    src.BirthDate,
+                    "yyyy-MM-dd",
+                    CultureInfo.InvariantCulture))
             .Map(dest => dest.Gender, src => src.Gender)
             .Map(dest => dest.Cpf, src => src.Cpf)
             .Map(dest => dest.Email, src => src.Email)
-            .Map(dest => dest.PhoneNumber, src => src.PhoneNumber)
+            .Map(dest => dest.PhoneNumber, src => checked((long)src.PhoneNumber))
             .Map(dest => dest.MotherName, src => src.MotherName)
             .Map(dest => dest.FatherName, src => src.FatherName)
             .Map(dest => dest.Nationality, src => src.Nationality)
-            .Map(dest => dest.BirthCity, src => src.BirthCity)
-            .Map(dest => dest.BirthState, src => src.BirthState)
             .Map(dest => dest.Street, src => src.Street)
             .Map(dest => dest.AddressNumber, src => src.AddressNumber)
-            .Map(dest => dest.Complement, src => src.Complement)
             .Map(dest => dest.Neighborhood, src => src.Neighborhood)
             .Map(dest => dest.City, src => src.City)
             .Map(dest => dest.State, src => src.State)
             .Map(dest => dest.ZipCode, src => src.ZipCode)
-            .Map(dest => dest.Country, src => src.Country);
+            .Map(dest => dest.Country, src => src.Country)
+            .Map(dest => dest.DependentsCount, src => src.DependentsCount)
+            .Map(dest => dest.IsPoliticallyExposed, src => src.IsPoliticallyExposed)
+            .Map(dest => dest.IsEmailVerified, src => src.IsEmailVerified)
+            .Map(dest => dest.RiskLevel, src => src.RiskLevel)
+            .Map(dest => dest.Latitude, src => src.Latitude)
+            .Map(dest => dest.Longitude, src => src.Longitude);
 
         config.NewConfig<ContractsApp.Create.CreateProfileResponse, CreateProfileResponse>()
             .Map(dest => dest.Profile, src => src.Data);
