@@ -18,7 +18,7 @@ public class ProfileGrpcMapper : IRegister
 
         #region common
 
-config.NewConfig<ProfileResponse, Profile>()
+        config.NewConfig<ProfileResponse, Profile>()
             .Map(dest => dest.ProfileId, src => src.Id.ToString())
             .Map(dest => dest.FullName, src => src.FullName)
             .Map(dest => dest.BirthDate, src => src.BirthDate.HasValue
@@ -27,7 +27,6 @@ config.NewConfig<ProfileResponse, Profile>()
             .Map(dest => dest.Gender, src => src.Gender)
             .Map(dest => dest.Cpf, src => src.Cpf ?? string.Empty)
             .Map(dest => dest.Status, src => src.Status)
-
             .Map(dest => dest.Email, src => src.Email ?? string.Empty)
             .Map(dest => dest.PhoneNumber, src => checked((ulong)src.PhoneNumber))
             .Map(dest => dest.MotherName, src => src.MotherName ?? string.Empty)
@@ -40,14 +39,12 @@ config.NewConfig<ProfileResponse, Profile>()
             .Map(dest => dest.State, src => src.State ?? string.Empty)
             .Map(dest => dest.ZipCode, src => src.ZipCode ?? string.Empty)
             .Map(dest => dest.Country, src => src.Country ?? string.Empty)
-
             .Map(dest => dest.DependentsCount, src => src.DependentsCount)
             .Map(dest => dest.IsPoliticallyExposed, src => src.IsPoliticallyExposed)
             .Map(dest => dest.IsEmailVerified, src => src.IsEmailVerified)
             .Map(dest => dest.RiskLevel, src => src.RiskLevel)
             .Map(dest => dest.Latitude, src => src.Latitude)
             .Map(dest => dest.Longitude, src => src.Longitude)
-
             .Map(dest => dest.ActivatedOnUnixMs, src => src.ActivedOnUtc.HasValue
                 ? src.ActivedOnUtc.Value.ToUnixTimeMilliseconds()
                 : default)

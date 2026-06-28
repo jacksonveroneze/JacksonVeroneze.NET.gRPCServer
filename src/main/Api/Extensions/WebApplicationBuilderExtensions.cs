@@ -25,9 +25,6 @@ internal static class WebApplicationBuilderExtensions
         private WebApplicationBuilder ConfigureDefaultServices(
             AppConfiguration appConfiguration)
         {
-            builder.Services.AddGrpc(builder.Environment.IsDevelopment());
-            builder.Services.AddMcp(appConfiguration);
-
             builder.Services
                 .AddProblemDetails()
                 .AddExceptionHandler<CustomExceptionHandler>()
@@ -38,6 +35,7 @@ internal static class WebApplicationBuilderExtensions
                 .AddRouting()
                 .AddCorrelation()
                 .AddApplicationServices()
+                .AddGrpc(builder.Environment.IsDevelopment())
                 .AddFluentValidation(AssemblyReference.Assembly)
                 .AddMapper(AssemblyReference.Assembly)
                 .AddCached(appConfiguration)

@@ -3,7 +3,7 @@ import {check} from 'k6';
 import {factoryHeaders, getToken} from "./scenarios/util.js";
 import {randomItem} from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 
-const BASE_URL = __ENV.BASE_URL || "localhost:8093";
+const BASE_URL = __ENV.BASE_URL || "localhost:7001";
 const GET_PROFILE_PATH = "profiles.v1.ProfileQueryService/GetProfile";
 const GET_PAGE_PROFILE_PATH = "profiles.v1.ProfileQueryService/ListProfiles";
 const CONNECT_TIMEOUT = __ENV.CONNECT_TIMEOUT || "2s";
@@ -16,36 +16,41 @@ client.load([protoRoot], 'profiles/v1/profile_query_service.proto');
 
 const filecontent = open("./data.json");
 
+// export const options = {
+//     insecureSkipTLSVerify: true,
+//
+//     scenarios: {
+//         get_profile: {
+//             executor: "ramping-arrival-rate",
+//             startRate: 1,
+//             timeUnit: "1s",
+//
+//             stages: [
+//                 { duration: "1s", target: 1 },
+//                 // { duration: "15s", target: 100 },
+//                 // { duration: "30s", target: 250 },
+//                 // { duration: "30s", target: 500 },
+//                 // { duration: "30s", target: 0 },
+//             ],
+//
+//             preAllocatedVUs: 200,
+//             maxVUs: 1500,
+//             gracefulStop: "30s",
+//         },
+//     },
+//
+//     thresholds: {
+//         checks: ["rate>=0.99"],
+//         grpc_req_duration: ["p(95)<300"],
+//         dropped_iterations: ["count==0"],
+//     },
+//
+//     summaryTrendStats: ["avg", "min", "med", "p(90)", "p(95)", "p(99)", "max"],
+// };
+
 export const options = {
     insecureSkipTLSVerify: true,
-
-    scenarios: {
-        get_profile: {
-            executor: "ramping-arrival-rate",
-            startRate: 1,
-            timeUnit: "1s",
-
-            stages: [
-                { duration: "5s", target: 1 },
-                { duration: "15s", target: 100 },
-                { duration: "30s", target: 250 },
-                { duration: "30s", target: 500 },
-                { duration: "30s", target: 0 },
-            ],
-
-            preAllocatedVUs: 200,
-            maxVUs: 1500,
-            gracefulStop: "30s",
-        },
-    },
-
-    thresholds: {
-        checks: ["rate>=0.99"],
-        grpc_req_duration: ["p(95)<300"],
-        dropped_iterations: ["count==0"],
-    },
-
-    summaryTrendStats: ["avg", "min", "med", "p(90)", "p(95)", "p(99)", "max"],
+    iterations: 1,
 };
 
 export function setup() {
@@ -62,9 +67,10 @@ export function setup() {
 }
 
 export default (data) => {
+    console.log("**********************")
     if (__ITER === 0) {
         client.connect(BASE_URL, {
-            plaintext: false,
+            plaintext: true,
             timeout: CONNECT_TIMEOUT,
         });
     }
@@ -74,35 +80,35 @@ export default (data) => {
         "x-correlation-id": crypto.randomUUID(),
     };
 
-    // const request = {profile_id: randomItem(data.ids)};
+    const request = {profile_id: randomItem(data.ids)};
+
+    const response = client.invoke(
+        GET_PROFILE_PATH,
+        // GET_PAGE_PROFILE_PATH,
+        request,
+        {
+            metadata,
+            timeout: READ_TIMEOUT,
+            tags: {
+                rpc: "GetProfile",
+            },
+        }
+    );
+    
+    // const request = {pagination: {page: 1, page_size: 50}};
     //
     // const response = client.invoke(
-    //     //GET_PROFILE_PATH,
     //     GET_PAGE_PROFILE_PATH,
     //     request,
     //     {
     //         metadata,
     //         timeout: READ_TIMEOUT,
     //         tags: {
-    //             rpc: "GetProfile",
+    //             rpc: "ListProfiles",
     //         },
     //     }
     // );
-    
-    const request = {pagination: {page: 1, page_size: 50}};
-
-    const response = client.invoke(
-        GET_PAGE_PROFILE_PATH,
-        request,
-        {
-            metadata,
-            timeout: READ_TIMEOUT,
-            tags: {
-                rpc: "ListProfiles",
-            },
-        }
-    );
-
+    console.log("**********************")
     check(response, {
         "grpc status is OK": (r) => r && r.status === grpc.StatusOK
     });

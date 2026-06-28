@@ -38,8 +38,7 @@ public static class AuthenticationExtensions
                         ValidAudience = appConfiguration.Auth.Audience,
                         ClockSkew = TimeSpan.Zero,
                     };
-            })
-            .AddApiKeyAuthenticationScheme(configuration);
+            });
 
         return services;
     }

@@ -23,8 +23,8 @@ public static class DatabaseExtensions
 
             services.AddRepository()
                 .InternalAddDatabase<DefaultDbContext>(
-                    appConfiguration.Database!.ConnectionString!, 
-                    environment, useSqlite: false);
+                    appConfiguration.Database!.ConnectionString!,
+                    environment);
 
             return services;
         }
@@ -32,30 +32,20 @@ public static class DatabaseExtensions
         private IServiceCollection InternalAddDatabase<TContext>(
             string connectionString,
             IHostEnvironment environment,
-            QueryTrackingBehavior behavior = QueryTrackingBehavior.NoTracking,
-            bool useSqlite = false)
+            QueryTrackingBehavior behavior = QueryTrackingBehavior.NoTracking)
             where TContext : DbContext
         {
             ArgumentException.ThrowIfNullOrEmpty(connectionString);
 
             services.AddDbContext<TContext>((_, options) =>
             {
-                if (!useSqlite)
-                {
-                    options.UseNpgsql(connectionString, conf =>
-                        {
-                            conf.EnableRetryOnFailure()
-                                .CommandTimeout(DefaultCommandTimeout);
-                        })
-                        .UseQueryTrackingBehavior(behavior)
-                        .ConfigureOptionsDatabase(environment);
-                }
-                else
-                {
-                    options.UseSqlite("Data Source=app.db")
-                        .UseQueryTrackingBehavior(behavior)
-                        .ConfigureOptionsDatabase(environment);
-                }
+                options.UseNpgsql(connectionString, conf =>
+                    {
+                        conf.EnableRetryOnFailure()
+                            .CommandTimeout(DefaultCommandTimeout);
+                    })
+                    .UseQueryTrackingBehavior(behavior)
+                    .ConfigureOptionsDatabase(environment);
             });
 
             return services;

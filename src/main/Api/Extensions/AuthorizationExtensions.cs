@@ -39,28 +39,6 @@ public static class AuthorizationExtensions
             {
                 AddJwtScopeRequirements(policy, AuthorizationScopes.ProfilesRead);
             });
-
-            options.AddPolicy(AuthorizationPolicies.McpAccess, AddMcpRequirements);
-
-            options.AddPolicy(AuthorizationPolicies.McpProfilesCreate, policy =>
-            {
-                AddMcpScopeRequirements(policy, AuthorizationScopes.ProfilesCreate);
-            });
-
-            options.AddPolicy(AuthorizationPolicies.McpProfilesActivate, policy =>
-            {
-                AddMcpScopeRequirements(policy, AuthorizationScopes.ProfilesActivate);
-            });
-
-            options.AddPolicy(AuthorizationPolicies.McpProfilesInactivate, policy =>
-            {
-                AddMcpScopeRequirements(policy, AuthorizationScopes.ProfilesInactivate);
-            });
-
-            options.AddPolicy(AuthorizationPolicies.McpProfilesRead, policy =>
-            {
-                AddMcpScopeRequirements(policy, AuthorizationScopes.ProfilesRead);
-            });
         });
 
         return services;
@@ -78,24 +56,6 @@ public static class AuthorizationExtensions
             AddJwtRequirements(policy);
             policy.RequireAssertion(context =>
                 HasScope(context.User, requiredScope, "scope", "scp"));
-        }
-
-        static void AddMcpRequirements(AuthorizationPolicyBuilder policy)
-        {
-            policy.AuthenticationSchemes.Add(ApiKeyAuthenticationDefaults.AuthenticationScheme);
-            policy.RequireAuthenticatedUser();
-        }
-
-        static void AddMcpScopeRequirements(
-            AuthorizationPolicyBuilder policy,
-            string requiredScope)
-        {
-            AddMcpRequirements(policy);
-            policy.RequireAssertion(context =>
-                HasScope(
-                    context.User,
-                    requiredScope,
-                    ApiKeyAuthenticationClaimTypes.Scope));
         }
 
         static bool HasScope(
