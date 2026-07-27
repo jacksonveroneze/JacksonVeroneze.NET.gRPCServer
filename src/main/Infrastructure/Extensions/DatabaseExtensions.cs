@@ -11,8 +11,6 @@ namespace JacksonVeroneze.NET.GRPCServer.Infrastructure.Extensions;
 [ExcludeFromCodeCoverage]
 public static class DatabaseExtensions
 {
-    private const int DefaultCommandTimeout = 5;
-
     extension(IServiceCollection services)
     {
         public IServiceCollection AddDatabase(
@@ -37,12 +35,11 @@ public static class DatabaseExtensions
         {
             ArgumentException.ThrowIfNullOrEmpty(connectionString);
 
-            services.AddDbContext<TContext>((_, options) =>
+            services.AddDbContextPool<TContext>((_, options) =>
             {
                 options.UseNpgsql(connectionString, conf =>
                     {
-                        conf.EnableRetryOnFailure()
-                            .CommandTimeout(DefaultCommandTimeout);
+                        conf.EnableRetryOnFailure();
                     })
                     .UseQueryTrackingBehavior(behavior)
                     .ConfigureOptionsDatabase(environment);
@@ -59,7 +56,7 @@ public static class DatabaseExtensions
         optionsBuilder
             .EnableDetailedErrors(environment.IsDevelopment())
             .EnableSensitiveDataLogging(environment.IsDevelopment())
-            .EnableThreadSafetyChecks()
+            .EnableThreadSafetyChecks(environment.IsDevelopment())
             .UseSnakeCaseNamingConvention();
     }
 }

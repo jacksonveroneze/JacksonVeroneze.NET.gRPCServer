@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using JacksonVeroneze.NET.GRPCServer.Api.Security;
 using JacksonVeroneze.NET.GRPCServer.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

@@ -3,7 +3,7 @@ import {check} from 'k6';
 import {factoryHeaders, getToken} from "./scenarios/util.js";
 import {randomItem} from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 
-const BASE_URL = __ENV.BASE_URL || "https://localhost:8093/rest";
+const BASE_URL = __ENV.BASE_URL || "http://localhost:7000";
 const READ_PATH = __ENV.READ_PATH || "/v1/profiles";
 const READ_TIMEOUT = __ENV.READ_TIMEOUT || "3s";
 
